@@ -1,0 +1,30 @@
+<div class="container col-md-6 border">
+    <h3>Project Manager</h3>
+
+  <nav class="navbar navbar-expand-md navbar-light">
+    <div class="collapse navbar-collapse" id="navbarLinks">
+        <ul class="navbar-nav mr-auto">
+          <li class="nav-item col-md-4">
+            <a class="nav-link" [routerLink]="['addProject']">Add Project</a>
+          </li>
+
+          <li class="nav-item col-md-4">
+            <a class="nav-link" [routerLink]="['addTask']">Add Task</a>
+          </li>   
+
+          <li class="nav-item col-md-4">
+            <a class="nav-link" [routerLink]="['addUser']">Add User</a>
+          </li>  
+
+          <li class="nav-item col-md-4">
+            <a class="nav-link" [routerLink]="['viewTask']">View Task</a>
+          </li>
+        </ul>
+    </div>    
+  </nav>
+</div>
+
+<div class="container col-md-6 border">
+  <br>
+  <router-outlet></router-outlet>
+</div>
