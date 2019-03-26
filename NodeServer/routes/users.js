@@ -24,13 +24,14 @@ router.get('/', (req, res) => {
     if (queryInput.searchKey) {
       getUsers.or([
         { 'FirstName': { $regex: queryInput.searchKey, $options: 'i' } },
-        { 'LastName': { $regex: queryInput.searchKey, $options: 'i' } },
-        { 'EmployeeID':  queryInput.searchKey }]);
+        { 'LastName': { $regex: queryInput.searchKey, $options: 'i' } }
+      ]);
     }
 
     if (queryInput.sortKey) {
       getUsers.sort([[queryInput.sortKey, 1]]);
     }
+
     getUsers.exec(function (err, users) {
       if (err) {
           res.json({ 'Success': false });
@@ -56,8 +57,9 @@ router.get('/:id', (req, res) => {
   
 // update user data
 router.post('/edit/:id', (req, res) => {
+  console.log (req.params.id);
 let userId = req.params.id;
-  User.findOne({ UserID: userId }, (err, user) => {
+  User.findOne({ EmployeeID: userId }, (err, user) => {
     if (!user)
         res.status(401).send({"Success": false, "Message":"Unable to find user"});
     else {

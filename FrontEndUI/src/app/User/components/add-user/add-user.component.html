@@ -44,7 +44,7 @@
       </div>    
    
       <div class="form-group row col-md-8 float-right">
-          <button class="col col-md-16" type="submit" [disabled]="UserAddEditForm.pristine || UserAddEditForm.invalid">{{ UserAction }}</button> &nbsp;
+          <button class="col col-md-16" type="submit" [disabled]="UserAddEditForm.pristine || UserAddEditForm.invalid">{{ AddOrEdit }}</button> &nbsp;
           <button class="col col-md-16" type="submit" [disabled]="UserAddEditForm.pristine || UserAddEditForm.invalid" (click)="reset()">Reset</button>
       </div>
     </form> 
@@ -75,27 +75,31 @@
   <div class="container col-md-16">
     <div class="list-group col-md-16" *ngFor="let user of UsersList">
       <div class="list-item col-md-16" >
+
         <div class="row col-md-16">
-          <div class="col col-md-10 float-left">
-            <input  type="text" [value]="user.FirstName" readonly class="form-control" >
+          <div class="col col-md-9 float-left">
+            <input type="text" [value]="user.FirstName" readonly class="form-control" >
           </div>
-          <div class="col col-md-2 float-right">
-            <button class="col col-md-16" type="button" (click)="editUser(user.UserID)">Edit</button>
+          <div class="col col-md-3 float-right">
+            <button class="col col-md-10" type="button" (click)="editUser(user.UserID)">Edit</button>
           </div>
         </div>
 
         <div class="row col-md-16">
-          <div class="col col-md-10 float-left">
+          <div class="col col-md-9 float-left">
             <input type="text" [value]="user.LastName" readonly class="form-control" >
           </div>
-          <div class="col-md-2 float-right">
-            <button class="col col-md-16" type="button" (click)="deleteUser(user.UserID)">Delete</button>
+          <div class="col-md-3 float-right">
+            <button class="col col-md-10" type="button" (click)="deleteUser(user.UserID)">Delete</button>
           </div>
         </div>
 
         <div class="row col-md-16">
-          <div class="col-md-10">
+          <div class="col-md-4 float-left">
             <input type="text" [value]="user.EmployeeID" readonly class="form-control" >
+          </div>
+         <div class="col-md-2 float-right">
+            <input type="hidden">
           </div>
         </div>
       </div>

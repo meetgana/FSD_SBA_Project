@@ -32,7 +32,7 @@ export class UserService {
   }
 
   updateUser(UserData: User): Observable<ServerResponse<User>> {
-    return this.http.post<ServerResponse<User>>(`${this.url}/users/edit`, UserData);
+    return this.http.post<ServerResponse<User>>(`${this.url}/users/edit/${UserData.EmployeeID}`, UserData);
   }  
         
   deleteUser(userID: number): Observable<ServerResponse<User>> {

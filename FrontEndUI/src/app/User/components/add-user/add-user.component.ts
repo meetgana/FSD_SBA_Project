@@ -14,7 +14,7 @@ export class AddUserComponent implements OnInit {
   UserAddEditForm : FormGroup;
   SortKey         : string;
   SearchKey       : string;  
-  UserAction      : String ;
+  AddOrEdit      : String ;
 
   constructor(private formbuilder : FormBuilder,
               private userservice   : UserService) {
@@ -32,14 +32,14 @@ export class AddUserComponent implements OnInit {
       employeeId :['', Validators.required],
       userid:''
     });
-    this.UserAction ="Add";
+    this.AddOrEdit ="Add";
   }
 
   addOrEditUser() {
-    if (this.UserAction == 'Add') {
+    if (this.AddOrEdit == 'Add') {
       this.addUser();
     }
-    else if (this.UserAction == 'Update') {
+    else if (this.AddOrEdit == 'Update') {
        this.updateUser();
     }
   }
@@ -70,7 +70,7 @@ export class AddUserComponent implements OnInit {
     this.UserAddEditForm.reset();
     this.SearchKey = null;
     this.SortKey = null;    
-    this.UserAction ='Add';  
+    this.AddOrEdit ='Add';  
   }
 
   retrieveUserList(){
@@ -92,7 +92,7 @@ export class AddUserComponent implements OnInit {
             employeeId: [response.Data.EmployeeID,Validators.required],
             userid: response.Data.UserID
           });
-          this.UserAction = 'Update';
+          this.AddOrEdit = 'Update';
         }
         else {
           alert(response.Message);
@@ -108,6 +108,7 @@ export class AddUserComponent implements OnInit {
       EmployeeID: this.UserAddEditForm.controls['employeeId'].value
     };
 
+    console.log (UserData);
     this.userservice.updateUser(UserData)
       .subscribe(response => {
         if (response.Success == true) {
@@ -134,7 +135,6 @@ export class AddUserComponent implements OnInit {
   }
 
   searchUser(searchValue: string) {
-    debugger;
     this.SearchKey = searchValue;
     this.retrieveUserList();
   }
