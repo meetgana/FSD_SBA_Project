@@ -18,14 +18,15 @@ export class AddUserComponent implements OnInit {
 
   constructor(private formbuilder : FormBuilder,
               private userservice   : UserService) {
-    this.initializeForm();
-  }
+    this.initializeUserForm();
+  };
 
   ngOnInit() {
     this.retrieveUserList();
   }
 
-  initializeForm(){
+  // Initialize User form
+  initializeUserForm(){
     this.UserAddEditForm = this.formbuilder.group({
       firstname :['', Validators.required],
       lastname :['', Validators.required],
@@ -35,18 +36,28 @@ export class AddUserComponent implements OnInit {
     this.AddOrEdit ="Add";
   }
 
+  //Retrieve Users list when loading Add User Form
+  retrieveUserList(){
+    this.userservice.retrieveUsers(this.SearchKey, this.SortKey)
+    .subscribe(response => {
+      if (response.Success == true) {
+        this.UsersList = response.Data;
+      }
+    });   
+  }
+
+  // Load User Form based on Users choice
   addOrEditUser() {
     if (this.AddOrEdit == 'Add') {
       this.addUser();
-    }
-    else if (this.AddOrEdit == 'Update') {
+    }    else if (this.AddOrEdit == 'Update') {
        this.updateUser();
     }
   }
 
+  // Add User in database
   addUser() {
     console.log ("In addUser");
-
     const newUser = <User>{
       FirstName: this.UserAddEditForm.controls['firstname'].value,
       LastName: this.UserAddEditForm.controls['lastname'].value,
@@ -66,22 +77,7 @@ export class AddUserComponent implements OnInit {
       });
   }
 
-  resetUserForm() {
-    this.UserAddEditForm.reset();
-    this.SearchKey = null;
-    this.SortKey = null;    
-    this.AddOrEdit ='Add';  
-  }
-
-  retrieveUserList(){
-    this.userservice.retrieveUsers(this.SearchKey, this.SortKey)
-    .subscribe(response => {
-      if (response.Success == true) {
-        this.UsersList = response.Data;
-      }
-    });   
-  }
-
+  // Edit User details in User form
   editUser(userID) {
      this.userservice.getUserByID(userID)
       .subscribe(response => {
@@ -100,6 +96,7 @@ export class AddUserComponent implements OnInit {
       });
   }
 
+  //Update User data
   updateUser() {
     const UserData = <User>{
       UserID: this.UserAddEditForm.controls['userid'].value,
@@ -121,6 +118,7 @@ export class AddUserComponent implements OnInit {
       });
   }
 
+  // Delete User from database
   deleteUser(userID){
     this.userservice.deleteUser(userID)
     .subscribe(response => {
@@ -134,11 +132,13 @@ export class AddUserComponent implements OnInit {
     });
   }
 
+  // Search the User data using User input in User form
   searchUser(searchValue: string) {
     this.SearchKey = searchValue;
     this.retrieveUserList();
   }
 
+  //Sort data using the choice from User form
   sortUsers(sortKey: string){
     if(sortKey=='firstname')
     this.SortKey = 'FirstName';
@@ -147,6 +147,14 @@ export class AddUserComponent implements OnInit {
     else if(sortKey=='employeeId')
     this.SortKey = 'EmployeeID';
     this.retrieveUserList();
+  }
+
+  // Reset the User Form
+  resetUserForm() {
+    this.UserAddEditForm.reset();
+    this.SearchKey = null;
+    this.SortKey = null;    
+    this.AddOrEdit ='Add';  
   }
 
 }

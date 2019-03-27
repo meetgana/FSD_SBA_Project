@@ -33,7 +33,7 @@
         <div class="col col-md-3">
           <label for="firstname">Employee ID:</label>
         </div>
-        <div class="col-md-5 float-right">
+        <div class="col col-md-5 float-right">
           <input type="text" class="form-control" name="employeeId" formControlName="employeeId">
           <div *ngIf= "UserAddEditForm.controls['employeeId'].invalid && (UserAddEditForm.controls['employeeId'].dirty)" class="alert alert-danger">
             <div *ngIf = "UserAddEditForm.controls['employeeId'].errors.required"> 
@@ -61,7 +61,7 @@
       <div class="col col-md-1">
         <label>Sort:</label>
       </div>
-      <div class="col-md-6">
+      <div class="col col-md-6">
         <button type="button" (click)="sortUsers('firstname')" >First Name</button> &nbsp;
         <button type="button" (click)="sortUsers('lastname')" >Last Name</button> &nbsp;
         <button type="button" (click)="sortUsers('employeeId')">Id</button> &nbsp;
@@ -89,16 +89,16 @@
           <div class="col col-md-9 float-left">
             <input type="text" [value]="user.LastName" readonly class="form-control" >
           </div>
-          <div class="col-md-3 float-right">
+          <div class="col col-md-3 float-right">
             <button class="col col-md-10" type="button" (click)="deleteUser(user.UserID)">Delete</button>
           </div>
         </div>
 
         <div class="row col-md-16">
-          <div class="col-md-4 float-left">
+          <div class="col col-md-4 float-left">
             <input type="text" [value]="user.EmployeeID" readonly class="form-control" >
           </div>
-         <div class="col-md-2 float-right">
+         <div class="col col-md-2 float-right">
             <input type="hidden">
           </div>
         </div>
