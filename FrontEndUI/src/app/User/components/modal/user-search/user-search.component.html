@@ -1,0 +1,53 @@
+<div class="modal fade" id="userSearch" tabindex="-1" role="dialog" aria-labelledby="userSearch" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLongTitle">Manager Search</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+
+        <div class="modal-body">
+          <div class="row">
+            <div class="col-md-12">
+              <input type="text" class="form-control" placeholder="Search.." name="UserSearch" (input)="searchUser($event.target.value)">
+              <br>
+              <div class="row">
+                <div class="col-md-12 searchTable">
+                  <table class="table table-striped table-hovered table-bordered" *ngIf="UsersList && UsersList.length>0">
+                    <thead class="table-primary">
+                      <tr>
+                        <td></td>
+                        <td>First Name</td>
+                        <td>Last Name</td>
+                        <td>Employee ID</td>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let user of UsersList">
+                        <td>
+                          <input type="radio" [value]="user.UserID" name="userID" (change)="selectUser($event.target.value)">
+                        </td>
+                        <td>{{user.FirstName}}</td>
+                        <td>{{user.LastName}}</td>
+                        <td>{{user.EmployeeID}}</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                  <label *ngIf="UsersList && UsersList.length==0">No Managers exists for search criteria.</label>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" style="width :100px; height:30px" [disabled]="!enableAdd" (click)="addUser()">Add</button>
+          <button type="button" style="width :100px; height:30px" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+
+    </div>
+  </div>

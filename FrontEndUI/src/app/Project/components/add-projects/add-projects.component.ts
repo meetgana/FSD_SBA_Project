@@ -68,9 +68,8 @@ export class AddProjectsComponent implements OnInit {
   //Add a new project 
   addProject(){
     const newProject = <Project>{
- /*     Project: this.ProjectAddEditForm.controls['projectname'].value,
-      Priority: this.ProjectAddEditForm.controls['priority'].value
-    */
+     ProjectName  : this.ProjectAddEditForm.controls['projectname'].value,
+      Priority    : this.ProjectAddEditForm.controls['priority'].value
     };
     
     if (this.Manager) {
@@ -79,7 +78,9 @@ export class AddProjectsComponent implements OnInit {
     if (this.setdate) {
       newProject.StartDate = moment(this.ProjectAddEditForm.controls['startdate'].value).add(-1, 'months').toDate();
       newProject.EndDate = moment(this.ProjectAddEditForm.controls['enddate'].value).add(-1, 'months').toDate();
-    }  
+    }
+    
+    console.log (newProject);
     this.projectservice.addProject(newProject)
       .subscribe(response => {
         if (response.Success == true) {
@@ -171,10 +172,9 @@ export class AddProjectsComponent implements OnInit {
   //Update the Project details in database.
   updateProject() {
     const ProjectDetails = <Project>{
-/*      ProjectID : this.ProjectAddEditForm.controls['projectid'].value,
-      Project   : this.ProjectAddEditForm.controls['projectname'].value,
-      Priority  : this.ProjectAddEditForm.controls['priority'].value
-    */
+      ProjectName   : this.ProjectAddEditForm.controls['projectname'].value,
+      Priority      : this.ProjectAddEditForm.controls['priority'].value
+
     };
     if (this.Manager) {
       ProjectDetails.ManagerID = this.Manager.UserID;

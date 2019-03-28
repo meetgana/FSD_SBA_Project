@@ -16,33 +16,46 @@
       </div>
    
       <div class="form-group row col-md-16">
-        <div class="col col-md-3"></div>
-        <div class="col col-md-9 float-right">
-          <div class="row col-md-16">
-            <div class="col col-md-5">
-              <input type="checkbox" value="setdate" formControlName='setdate' name='setdate'>
-              <label for="setdate" class="chkBxPadding"> <small>Set Start and End Date</small></label>
-            </div>
-           
-            <div class="col col-md-3.5">
+<!--        <div class="col col-md-2"></div>
+      <div class="col col-md-16">
+                    <div class="row col-md-16 m-0 p-0">
+              <div class="col col-md-5 m-0 ">
+                <input type="checkbox" value="setdate" formControlName='setdate' name='setdate'>
+                <small>Set Start and End Date</small>
+              </div>
+ 
+              <div class="col col-md-3.5 m-0 p-0">
               <input class="form-control" placeholder="Start Date" name='startdate' aria-describedby="startdate"
-              formControlName='startdate'  ngbDatepicker  (focus)="startdate.toggle()"/> 
+              formControlName='startdate'  ngbDatepicker #startdate="ngbDatepicker" (focus)="startdate.toggle()"/> 
             </div>
 
-            <div class="col col-md-3.5">
+            <div class="col col-md-3.5 m-0 p-0">
                 <input class="form-control" placeholder="End Date" name='enddate' aria-describedby="enddate"
-                 formControlName='enddate' ngbDatepicker (focus)="enddate.toggle()"> 
+                 formControlName='enddate' ngbDatepicker #enddate="ngbDatepicker" (focus)="enddate.toggle()"> 
             </div> 
           </div>
-        </div>
+        -->
+
+          <span>
+              <input type="checkbox" style="margin-left: 160px"value="setdate" formControlName='setdate' name='setdate'>
+              <small>Set Start and End Date</small>
+          </span>
+
+            <input class="form-control" style="width: 120px; margin-left: 10px" placeholder="Start Date" name='startdate' aria-describedby="startdate"
+            formControlName='startdate'  ngbDatepicker #startdate="ngbDatepicker" (focus)="startdate.toggle()"/> 
+
+              <input class="form-control"  style="width: 120px; margin-left: 10px" placeholder="End Date" name='enddate' aria-describedby="enddate"
+               formControlName='enddate' ngbDatepicker #enddate="ngbDatepicker" (focus)="enddate.toggle()"> 
       </div>
    
       <div class="form-group row col-md-16">
         <div class="col col-md-3">
           <label for="priority">Priority:</label>
         </div>
-        <div class="col col-md-13 border">
-          <input type="range" name='priority' formControlName='priority' min="0" max="30" step="1" style="width: 100%">
+        <div class="col col-md-13">
+          <span>
+         <i>0 </i> <input type="range" id= "priority" name="priority" formControlName="priority" min="0" max="30" step="1" style="width: 90%"><i> 30</i>
+         </span>
         </div>
       </div>    
    
@@ -54,19 +67,103 @@
           <input type="text" class="form-control" formControlName='manager' name='manager' aria-describedby='manager' readonly>
         </div>
         <div class="col col-md-2">
-          <button type="button" class="btn btn-default" data-toggle="modal" data-target="#userSearch" >
-            <span class="fa fa-search">Search</span> 
-          </button>
+          <button type="button" class="btn btn-default border" data-toggle="modal" data-target="#userSearch" style="border-radius: 50%">Search</button>
         </div>
       </div>    
 
       <div class="form-group row col-md-8 float-right">
-          <button class="col col-md-16" type="submit" [disabled]="ProjectAddEditForm.pristine || ProjectAddEditForm.invalid">{{ AddOrEdit }}</button> &nbsp;
-          <button class="col col-md-16" type="submit" [disabled]="ProjectAddEditForm.pristine || ProjectAddEditForm.invalid" (click)="reset()">Reset</button>
+          <button class="col col-md-16" type="submit" [disabled]="ProjectAddEditForm.pristine || ProjectAddEditForm.invalid">{{ UserAction }}</button> &nbsp;
+          <button class="col col-md-16" type="submit" [disabled]="ProjectAddEditForm.pristine || ProjectAddEditForm.invalid" (click)="resetProjectForm()">Reset</button>
       </div>
     </form> 
   </div>
 
   <br>
   <hr>
-</div>
+
+
+    <div class="row">
+      <input type="text" style="width: 100%"  class="form-control" placeholder="Search..." name="search" (input)="searchProject($event.target.value)">
+    </div>
+  </div>
+
+  <br>
+
+  <div class="row form-group">
+    <div class="col-md-3 controlTopPadding">
+      <span>Sort By:</span>
+    </div>
+    <div class="col-md-9">
+      <div class="row">          
+        <button type="button" style="width :100px; height:30px" [disabled]="ProjectList && ProjectList.length==0" (click)="sortProjects('StartDate')">Start Date</button> &nbsp;  &nbsp; 
+        <button type="button" style="width :100px; height:30px"  [disabled]="ProjectList && ProjectList.length==0" (click)="sortProjects('EndDate')">End Date</button> &nbsp; &nbsp; 
+        <button type="button" style="width :100px; height:30px"  [disabled]="ProjectList && ProjectList.length==0" (click)="sortProjects('Priority')">Priority</button> &nbsp; &nbsp; 
+        <button type="button" style="width :100px; height:30px"  [disabled]="ProjectList && ProjectList.length==0" (click)="sortProjects('CompletedTasks')">Completed</button> &nbsp;
+      </div>
+    </div>
+  </div> 
+
+  <hr>
+
+  <div class="list-group" *ngFor="let project of ProjectList">
+      <div>
+        <div class="row form-group">
+          <div class="col-md-8">
+            <table style="background-color:#f2f2f2 ; width: 100%" cellpadding=2>
+              <tr>
+                <td>
+                  Project: <b>{{project.ProjectName}}</b>
+                </td>
+              </tr>
+              <tr>
+                <td colspan="2">&nbsp;</td>
+              </tr>
+              <tr>
+                <td>No of Tasks: {{project.TotalTasks}}</td>
+                <td>Completed: {{project.CompletedTasks}}</td>
+              </tr>
+              <tr>
+                <td>Start Date: {{project.StartDate | date: 'dd-MM-yyyy' }}</td>
+                <td>End Date: {{project.EndDate | date: 'dd-MM-yyyy'}}</td>
+              </tr>
+            </table>
+          </div>
+
+          <div class="col-md-1">
+            <table height="100%" cellpadding=0>
+              <tr height="20%">
+                <td>
+                  <label>Priority</label>
+                </td>
+              </tr>
+              <tr height="80%" style="background-color:#f2f2f2">
+                <td>
+                  <div>
+                    <span>{{project.Priority}}</span>
+                  </div>
+                </td>
+              </tr>
+            </table>
+          </div>
+
+          <div class="col-md-2 ml-3">
+            <table cellpadding=5>
+              <tr>
+                <td>
+                  <button type="button" style="width :75px"  (click)="LoadProjectDetails(project.ProjectID)">Update</button> &nbsp;
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <button type="button" style="width :75px"  (click)="suspendProject(project.ProjectID)">Suspend</button>
+                </td>
+              </tr>
+            </table>
+          </div>
+          
+        </div>
+        <hr>
+      </div>   
+</div> 
+
+<app-user-search (userSelected)="onManagerSelect($event)"></app-user-search>

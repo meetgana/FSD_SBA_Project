@@ -2,6 +2,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -11,6 +12,7 @@ import { AddTaskComponent } from './Task/components/add-task/add-task.component'
 import { ViewTaskComponent } from './Task/components/view-task/view-task.component';
 
 import { UserService } from './User/service/user.service';
+import { UserSearchComponent } from './User/components/modal/user-search/user-search.component';
 
 
 @NgModule({
@@ -20,14 +22,16 @@ import { UserService } from './User/service/user.service';
     AddProjectsComponent,
     AddTaskComponent,
     ViewTaskComponent,
-    AddProjectsComponent
+    AddProjectsComponent,
+    UserSearchComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     ReactiveFormsModule,
     FormsModule,
-    HttpClientModule
+    HttpClientModule,
+    NgbModule
   ],
   providers: [UserService],
   bootstrap: [AppComponent]

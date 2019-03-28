@@ -1,8 +1,9 @@
 const express = require ('express');
 const mongoose = require('mongoose')
 const bodyparser = require('body-parser');
-const cors = require('cors')
-const user = require ('./routes/users')
+const cors = require('cors');
+const user = require ('./routes/users');
+const project = require ('./routes/projects')
 
 const app = express();
 app.use(cors());
@@ -17,6 +18,7 @@ connection.once('open', () => {
 
     //set up the middleware
     app.use('/users', user);
+    app.use('/projects', project);
     
     //start the Server
     app.listen(4000, () => {
