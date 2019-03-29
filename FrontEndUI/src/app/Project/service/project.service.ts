@@ -30,17 +30,17 @@ export class ProjectService {
     }
   
     // Retrieve projet by project id
-    getProjectByName(ProjectName: number): Observable<ServerResponse<Project>> {
-      return this.http.get<ServerResponse<Project>>(`${this.url}/projects/${ProjectName}`);
+    getProjectByName(ProjectId: number): Observable<ServerResponse<Project>> {
+      return this.http.get<ServerResponse<Project>>(`${this.url}/projects/${ProjectId}`);
     }
   
     //Update Project data 
     updateProject(ProjectData: Project): Observable<ServerResponse<Project>> {
-      return this.http.post<ServerResponse<Project>>(`${this.url}/projects/edit/${ProjectData.ProjectName}`, ProjectData);
+      return this.http.post<ServerResponse<Project>>(`${this.url}/projects/edit/${ProjectData.Project}`, ProjectData);
     }  
           
     //Delete Project 
-    suspendProject(ProjectName: string): Observable<ServerResponse<Project>> {
-      return this.http.get<ServerResponse<Project>>(`${this.url}/projects/delete/${ProjectName}`);
+    suspendProject(Project: string): Observable<ServerResponse<Project>> {
+      return this.http.get<ServerResponse<Project>>(`${this.url}/projects/delete/${Project}`);
     }  
 }

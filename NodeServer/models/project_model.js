@@ -5,7 +5,7 @@ const Task = require('./task_model');
 
 let Project = new Schema({
     ProjectID       : {type: Number },
-    ProjectName     : {type: String, required: true},
+    Project     : {type: String, required: true},
     StartDate       : {type: Date, default: null},
     EndDate         : {type: Date, default: null},        
     Priority        : {type: Number},   

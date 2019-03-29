@@ -34,7 +34,7 @@ export class AddProjectsComponent implements OnInit {
 
   initializeProjectForm() {
     this.ProjectAddEditForm = this.formbuilder.group({
-      projectname : ['', Validators.required],
+      project : ['', Validators.required],
       setdate     : false,
       startdate   : [{ value: '', disabled: true }],
       enddate     : [{ value: '', disabled: true }],
@@ -68,7 +68,7 @@ export class AddProjectsComponent implements OnInit {
   //Add a new project 
   addProject(){
     const newProject = <Project>{
-     ProjectName  : this.ProjectAddEditForm.controls['projectname'].value,
+      Project  : this.ProjectAddEditForm.controls['project'].value,
       Priority    : this.ProjectAddEditForm.controls['priority'].value
     };
     
@@ -94,7 +94,6 @@ export class AddProjectsComponent implements OnInit {
       });    
  }
   
-
  //Initialize start date and end date
  dateValidation() {
    this.ProjectAddEditForm.get('setdate').valueChanges.subscribe(
@@ -141,7 +140,7 @@ export class AddProjectsComponent implements OnInit {
         var startdate = moment(startdateSelected).add(-1, 'months').toDate();
         if (enddate && startdate) {
           if (startdate > enddate) {
-            alert('End date should be greater than start date');            
+            alert('Start date should be less than end date');            
             this.ProjectAddEditForm.controls['startdate'].setErrors({ 'incorrect': true });
           }
         }
@@ -172,7 +171,7 @@ export class AddProjectsComponent implements OnInit {
   //Update the Project details in database.
   updateProject() {
     const ProjectDetails = <Project>{
-      ProjectName   : this.ProjectAddEditForm.controls['projectname'].value,
+      Project       : this.ProjectAddEditForm.controls['project'].value,
       Priority      : this.ProjectAddEditForm.controls['priority'].value
 
     };
@@ -196,16 +195,16 @@ export class AddProjectsComponent implements OnInit {
   }
   
   //Upload the project details selected for update in the top section of the Project form
-  LoadProjectDetails(projectname) {
+  LoadProjectDetails(project) {
     this.resetProjectForm();
-    this.projectservice.getProjectByName(projectname)
+    this.projectservice.getProjectByName(project)
       .subscribe(response => {
         if (response.Success == true) {
 
-          this.ProjectAddEditForm.controls["projectname"].setValue(response.Data.ProjectName);
+          this.ProjectAddEditForm.controls["project"].setValue(response.Data.Project);
           this.ProjectAddEditForm.controls["projectid"].setValue(response.Data.ProjectID);          
           this.ProjectAddEditForm.controls["priority"].setValue(response.Data.Priority);
-          this.ProjectAddEditForm.controls["projectname"].setValidators(Validators.required);       
+          this.ProjectAddEditForm.controls["project"].setValidators(Validators.required);       
           var ProjstartDate, ProjendDate;
           
           if (response.Data.StartDate || response.Data.EndDate) {
@@ -238,8 +237,8 @@ export class AddProjectsComponent implements OnInit {
   }
 
   //To suspend the project 
-  suspendProject(projectname) {
-    this.projectservice.suspendProject(projectname)
+  suspendProject(project) {
+    this.projectservice.suspendProject(project)
       .subscribe(response => {
         if (response.Success == true) {
           alert('Project is suspended!');

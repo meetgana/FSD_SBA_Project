@@ -2,7 +2,7 @@ import { Component, OnInit, EventEmitter, Input, Output } from '@angular/core';
 import { User } from '../../../model/user';
 import { UserService } from '../../../service/user.service';
 
-var $ :any;
+declare var $ :any;
 
 @Component({
   selector: 'app-user-search',

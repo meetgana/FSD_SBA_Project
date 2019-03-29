@@ -3,12 +3,12 @@
     <form [formGroup]="ProjectAddEditForm" (ngSubmit)="addOrEditProject()">   
       <div class="form-group row col-md-16">
         <div class="col col-md-3">
-            <label for="Projectname">Project:</label>
+            <label for="Project">Project:</label>
         </div>
         <div class="col col-md-9 float-right">
-          <input type="text" class="form-control" name="projectname" formControlName="projectname">
-          <div *ngIf= "ProjectAddEditForm.controls['projectname'].invalid && (ProjectAddEditForm.controls['projectname'].dirty)" class="alert alert-danger ">
-            <div *ngIf = "ProjectAddEditForm.controls['projectname'].errors.required"> 
+          <input type="text" class="form-control" name="project" formControlName="project">
+          <div *ngIf= "ProjectAddEditForm.controls['project'].invalid && (ProjectAddEditForm.controls['project'].dirty)" class="alert alert-danger ">
+            <div *ngIf = "ProjectAddEditForm.controls['project'].errors.required"> 
                A valid Project Name is required
             </div>
           </div>
@@ -16,38 +16,28 @@
       </div>
    
       <div class="form-group row col-md-16">
-<!--        <div class="col col-md-2"></div>
-      <div class="col col-md-16">
-                    <div class="row col-md-16 m-0 p-0">
-              <div class="col col-md-5 m-0 ">
+        <div class="col col-md-2"></div>
+        <div class="col col-md-16">
+           <div class="row">
+              <div>
                 <input type="checkbox" value="setdate" formControlName='setdate' name='setdate'>
                 <small>Set Start and End Date</small>
               </div>
  
-              <div class="col col-md-3.5 m-0 p-0">
-              <input class="form-control" placeholder="Start Date" name='startdate' aria-describedby="startdate"
-              formControlName='startdate'  ngbDatepicker #startdate="ngbDatepicker" (focus)="startdate.toggle()"/> 
-            </div>
+              <div class="col-md-4 col-sm-12">
+                <input class="form-control" placeholder="Start Date" name='startdate' aria-describedby="startdate"
+                formControlName='startdate'  ngbDatepicker #startdate="ngbDatepicker" (focus)="startdate.toggle()"/> 
+              </div>
 
-            <div class="col col-md-3.5 m-0 p-0">
+              <div class="col col-md-4 col-sm-12">
                 <input class="form-control" placeholder="End Date" name='enddate' aria-describedby="enddate"
                  formControlName='enddate' ngbDatepicker #enddate="ngbDatepicker" (focus)="enddate.toggle()"> 
-            </div> 
-          </div>
-        -->
-
-          <span>
-              <input type="checkbox" style="margin-left: 160px"value="setdate" formControlName='setdate' name='setdate'>
-              <small>Set Start and End Date</small>
-          </span>
-
-            <input class="form-control" style="width: 120px; margin-left: 10px" placeholder="Start Date" name='startdate' aria-describedby="startdate"
-            formControlName='startdate'  ngbDatepicker #startdate="ngbDatepicker" (focus)="startdate.toggle()"/> 
-
-              <input class="form-control"  style="width: 120px; margin-left: 10px" placeholder="End Date" name='enddate' aria-describedby="enddate"
-               formControlName='enddate' ngbDatepicker #enddate="ngbDatepicker" (focus)="enddate.toggle()"> 
+              </div> 
+            </div>
+        </div>
       </div>
-   
+       
+         
       <div class="form-group row col-md-16">
         <div class="col col-md-3">
           <label for="priority">Priority:</label>
@@ -67,7 +57,8 @@
           <input type="text" class="form-control" formControlName='manager' name='manager' aria-describedby='manager' readonly>
         </div>
         <div class="col col-md-2">
-          <button type="button" class="btn btn-default border" data-toggle="modal" data-target="#userSearch" style="border-radius: 50%">Search</button>
+          <button type="button" class="btn btn-default border" data-toggle="modal" data-target="#userSearch" style="border-radius: 50%">Search
+          </button>
         </div>
       </div>    
 
@@ -85,7 +76,6 @@
     <div class="row">
       <input type="text" style="width: 100%"  class="form-control" placeholder="Search..." name="search" (input)="searchProject($event.target.value)">
     </div>
-  </div>
 
   <br>
 
@@ -112,7 +102,7 @@
             <table style="background-color:#f2f2f2 ; width: 100%" cellpadding=2>
               <tr>
                 <td>
-                  Project: <b>{{project.ProjectName}}</b>
+                  Project: <b>{{project.Project}}</b>
                 </td>
               </tr>
               <tr>
@@ -164,6 +154,46 @@
         </div>
         <hr>
       </div>   
-</div> 
+  </div>
 
+</div>
 <app-user-search (userSelected)="onManagerSelect($event)"></app-user-search>
+
+
+ <!--         <span>
+              <input type="checkbox" style="margin-left: 160px"value="setdate" formControlName='setdate' name='setdate'>
+              <small>Set Start and End Date</small>
+          </span>
+
+            <input class="form-control" style="width: 120px; margin-left: 10px" placeholder="Start Date" name='startdate' aria-describedby="startdate"
+            formControlName='startdate'  ngbDatepicker #startdate="ngbDatepicker" (focus)="startdate.toggle()"/> 
+
+              <input class="form-control"  style="width: 120px; margin-left: 10px" placeholder="End Date" name='enddate' aria-describedby="enddate"
+               formControlName='enddate' ngbDatepicker #enddate="ngbDatepicker" (focus)="enddate.toggle()"> 
+        -->
+
+  <!--     
+<div class="container">
+  <h2>Modal Example</h2>
+  <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">Open Modal</button>
+</div>
+
+  <div class="modal fade" id="myModal" role="dialog">
+    <div class="modal-dialog">
+    
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Modal Header</h4>
+        </div>
+        <div class="modal-body">
+          <p>Some text in the modal.</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+      
+    </div>
+  </div>
+-->
