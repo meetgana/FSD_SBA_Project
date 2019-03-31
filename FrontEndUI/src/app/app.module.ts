@@ -15,6 +15,8 @@ import { ViewTaskComponent } from './Task/components/view-task/view-task.compone
 
 import { UserService } from './User/service/user.service';
 import { ProjectService } from './Project/service/project.service';
+import { ProjectSearchComponent } from './Project/components/modal/project-search/project-search.component';
+import { TaskSearchComponent } from './Task/components/modal/task-search/task-search.component';
 
 
 @NgModule({
@@ -25,7 +27,9 @@ import { ProjectService } from './Project/service/project.service';
     AddProjectsComponent,
     AddTaskComponent,
     ViewTaskComponent,
-    AddProjectsComponent
+    AddProjectsComponent,
+    ProjectSearchComponent,
+    TaskSearchComponent
   ],
   imports: [
     BrowserModule,

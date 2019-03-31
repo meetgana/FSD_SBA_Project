@@ -1,0 +1,48 @@
+<div class="modal fade" id="parentTaskSearch" tabindex="-1" role="dialog" aria-labelledby="parentTaskSearch" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      
+      <div class="modal-header">
+        <h5 class="modal-title" id="taskModelTitle">Search Parent Task</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-md-12">
+            <input type="text" class="form-control" placeholder="Search.." name="ParentSearch"
+             (input)="searchParentTask($event.target.value)">
+            <br>
+            <div class="row">
+              <div class="col-md-12 searchTable">
+                <table class="table table-striped table-responsive table-hover table-bordered" *ngIf="ParentTasksList && ParentTasksList.length>0">
+                  <thead class="thead-light">
+                    <tr>
+                      <td></td>
+                      <td>Parent Task</td>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let parent of ParentTasksList">
+                      <td><input type="radio" name="parentID" [value]="parent.ParentID" (change)="selectParentTask($event.target.value)"></td>
+                      <td>{{parent.ParentTask}}</td>
+                    </tr>
+                  </tbody>
+                </table>
+                <label *ngIf="ParentTasksList && ParentTasksList.length==0">No Parent tasks found for search criteria.</label>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="modal-footer">
+        <button type="button" style="width :100px; height:30px" [disabled]="!EnableAddButton" (click)="addParentTask()">Add</button>
+        <button type="button" style="width :100px; height:30px" data-dismiss="modal">Close</button>
+      </div>
+
+    </div>
+  </div>
+</div>

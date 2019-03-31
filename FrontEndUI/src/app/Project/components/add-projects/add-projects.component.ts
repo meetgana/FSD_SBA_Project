@@ -171,6 +171,7 @@ export class AddProjectsComponent implements OnInit {
   //Update the Project details in database.
   updateProject() {
     const ProjectDetails = <Project>{
+      ProjectID     : this.ProjectAddEditForm.controls['projectid'].value,
       Project       : this.ProjectAddEditForm.controls['project'].value,
       Priority      : this.ProjectAddEditForm.controls['priority'].value
 
@@ -197,7 +198,7 @@ export class AddProjectsComponent implements OnInit {
   //Upload the project details selected for update in the top section of the Project form
   LoadProjectDetails(project) {
     this.resetProjectForm();
-    this.projectservice.getProjectByName(project)
+    this.projectservice.getProjectById(project)
       .subscribe(response => {
         if (response.Success == true) {
 

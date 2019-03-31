@@ -38,6 +38,11 @@ export class UserSearchComponent implements OnInit {
       this.enableAdd = false;
   }
 
+  searchUser(searchValue: string) {
+    this.SearchKey = searchValue;
+    this.retrieveUsers();
+  }
+  
   selectUser(userID: number){
     this.SelectedUserID = userID;
     this.enableAdd = true;

@@ -1,0 +1,47 @@
+<div class="modal fade" id="projectSearch" tabindex="-1" role="dialog" aria-labelledby="projectSearch" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      
+      <div class="modal-header">
+        <h5 class="modal-title" id="projectModalTitle">Search Project</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-md-12">
+            <input type="text" class="form-control" placeholder="Search.." name="ProjectSearch"
+             (input)="searchProject($event.target.value)">
+            <br>
+            <div class="row">
+              <div class="col-md-12 searchTable">
+                <table class="table table-striped table-responsive table-hover table-bordered" *ngIf="ProjectList && ProjectList.length>0">
+                  <thead class="thead-light">
+                    <tr>
+                      <td></td>
+                      <td>Project Name</td>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let project of ProjectList">
+                      <td><input type="radio" name="projectID" [value]="project.ProjectID" (change)="selectProject($event.target.value)"></td>
+                      <td>{{project.Project}}</td>
+                    </tr>
+                  </tbody>
+                </table>
+                <label *ngIf="ProjectList && ProjectList.length==0">No projects found for the given search criteria.</label>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" style="width :100px; height:30px" [disabled]="!EnableAddButton" (click)="addProject()">Add</button>
+        <button type="button" style="width :100px; height:30px" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>

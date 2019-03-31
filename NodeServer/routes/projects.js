@@ -1,19 +1,19 @@
 const express = require('express');
 const router  = express.Router();
-const Project = require ('../models/project_model')
+const Project = require ('../models/project_model');
 
 // Create new Project 
 router.post('/add', (req, res) => {
-    let projectData = req.body
-    let project = new Project(projectData)
+    let projectData = req.body;
+    let project = new Project(projectData);
 
     console.log(projectData);
     project.save((err, projectData) => {
       if (err) {
           console.log(err)
-        res.status(400).send({"Success": false, "Message":"Failed to add new Project"})    
+        res.status(400).send({"Success": false, "Message":"Failed to add new Project"});   
       } else {
-        res.status(200).json({"Success": true})
+        res.status(200).json({"Success": true});
       }
     });
 });
@@ -35,7 +35,7 @@ router.get('/', (req, res) => {
   .populate('Tasks', ['TaskID', 'Status'])
   .exec(function (err, projects) {
     if (err) {
-      res.json({ 'Success': false })
+      res.json({ 'Success': false });
     }
     else {
       res.json({ 'Success': true, 'Data': projects });
@@ -48,7 +48,7 @@ router.get('/:id', (req, res) => {
   let projectId = req.params.id;
   Project.findOne({ ProjectID: projectId }, (err, project) => {
     if (err) {
-        res.json({ 'Success': false, 'Message': 'Project not found' })
+        res.json({ 'Success': false, 'Message': 'Project not found' });
     }
     else {
         res.json({ 'Success': true, 'Data': project });
@@ -59,23 +59,27 @@ router.get('/:id', (req, res) => {
 // update project details
 router.post('/edit/:id', (req, res) => {
   let projectId = req.params.id;
-  Project.findOne({ ProjectID: projectId }, (err, project) => {
-    if (!project)
-      return next(new Error('Project not found'));
-    else {
-      project.Project   = req.body.Project;
-      project.Priority  = req.body.Priority;
-      project.ManagerID = req.body.ManagerID;
-      project.StartDate = req.body.StartDate;
-      project.EndDate   = req.body.EndDate;
 
-      Project.save((err, project) => {
-        if (err) {
-          res.status(400).send({"Success": false, "Message":"Failed to update Project Details"})    
-        } else {
-          res.status(200).json({"Success": true})
-        }
-      });        
+  Project.findOne({ ProjectID: projectId }, (err, projectData) => {
+    if (err)
+      res.status(400).send({"Success": false, "Message":"Unable to find the project"}); 
+    else {
+      if (projectData) {
+        projectData.Project   = req.body.Project;
+        projectData.Priority  = req.body.Priority;
+        projectData.ManagerID = req.body.ManagerID;
+        projectData.StartDate = req.body.StartDate;
+        projectData.EndDate   = req.body.EndDate;
+
+        console.log (projectData);
+        projectData.save((err, projectData) => {
+          if (err) {
+            res.status(400).send({"Success": false, "Message":"Failed to update Project Details"});  
+          } else {
+            res.status(200).json({"Success": true});
+          }
+        });        
+      }
     }
   });
 });

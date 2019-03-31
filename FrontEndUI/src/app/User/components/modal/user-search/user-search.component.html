@@ -1,9 +1,9 @@
-<div  id="userSearch" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="userSearch" aria-hidden="true">
+<div class="modal fade" id="userSearch" tabindex="-1" role="dialog" aria-labelledby="userSearch" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content">
 
         <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLongTitle">Manager Search</h5>
+          <h5 class="modal-title" id="userModalTitle">Search Manager</h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
@@ -16,13 +16,13 @@
               <br>
               <div class="row">
                 <div class="col-md-12 searchTable">
-                  <table class="table table-striped table-hovered table-bordered" *ngIf="UsersList && UsersList.length>0">
-                    <thead class="table-primary">
+                  <table class="table table-striped table-responsive table-hover table-bordered" *ngIf="UsersList && UsersList.length>0">
+                    <thead class="thead-light">
                       <tr>
                         <td></td>
-                        <td>First Name</td>
-                        <td>Last Name</td>
-                        <td>Employee ID</td>
+                        <td><b>First Name</b></td>
+                        <td><b>Last Name</b></td>
+                        <td><b>Employee ID</b></td>
                       </tr>
                     </thead>
                     <tbody>
@@ -36,7 +36,7 @@
                       </tr>
                     </tbody>
                   </table>
-                  <label *ngIf="UsersList && UsersList.length==0">No Managers exists for search criteria.</label>
+                  <label *ngIf="UsersList && UsersList.length==0">User not found</label>
                 </div>
               </div>
             </div>
