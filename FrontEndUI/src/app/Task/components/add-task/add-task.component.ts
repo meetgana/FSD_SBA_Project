@@ -18,7 +18,7 @@ export class AddTaskComponent implements OnInit {
 
   taskId: number = 0;
   isParentTask: any;
-  TaskAddEditForm  : FormGroup;
+  isDatesValid: boolean = true;
 
    task = <Task>{
     Task      : '',
@@ -28,11 +28,16 @@ export class AddTaskComponent implements OnInit {
     status    : ''
   };
 
-  control: FormControl = new FormControl('startdate', Validators.minLength(4));
-  smodel = {year: 2000, month: 1, day: 1};
+  sDate : any;
+  eDate: any;
 
   constructor(private activateRoute : ActivatedRoute, private router : Router, 
               private taskservice : TaskService) { 
+                var today = new Date();
+                var today1 = new Date();
+                const tomorrow =  new Date(today1.setDate(today1.getDate() + 1));
+                this.sDate = <NgbDateStruct>{ year: today.getFullYear(), month: today.getMonth() + 1, day: today.getDate() };
+                this.eDate = <NgbDateStruct>{ year: tomorrow.getFullYear(), month: tomorrow.getMonth() + 1, day: tomorrow.getDate() };
               }
 
   ngOnInit() {
@@ -50,42 +55,25 @@ export class AddTaskComponent implements OnInit {
     else {
       this.taskId = 0;
     }
-    console.log ("Task Id:", this.taskId);
   }
 
-  dateValidator(startdate, enddate) {
-    // console.log ("startdate: ", startdate);
-    // console.log ("enddate: ", enddate);
-    console.log (startdate._elRef.nativeElement.value);
-    console.log (enddate._elRef.nativeElement.value);
+  dateValidator() {
+    var enddate: any = moment(this.eDate).add(-1, 'months').toDate();
+    var startdate: any = moment(this.sDate).add(-1, 'months').toDate();
+    if (startdate && enddate) {
+      if (enddate < startdate) {
+        alert('End date should be greater than start date');
+        this.isDatesValid = false;
       }
+      else {
+        this.isDatesValid = true;
+      }
+    }
+  }
 
-/*     this.TaskAddEditForm.get('enddate').valueChanges.subscribe(
-       (enddateSelected: Date) => {
-         var startdateSelected = this.TaskAddEditForm.get('startdate').value;
-         var enddate = moment(enddateSelected).add(-1, 'months').toDate();
-         var startdate = moment(startdateSelected).add(-1, 'months').toDate();
-         if (startdate && enddate) {
-           if (enddate < startdate) {
-             alert('End date should be greater than start date');
-             this.TaskAddEditForm.controls['enddate'].setErrors({ 'incorrect': true });
-           }
-         }
-     });
- 
-     this.TaskAddEditForm.get('startdate').valueChanges.subscribe(
-       (startdateSelected: Date) => {
-         var enddateSelected = this.TaskAddEditForm.get('enddate').value;
-         var enddate = moment(enddateSelected).add(-1, 'months').toDate();
-         var startdate = moment(startdateSelected).add(-1, 'months').toDate();
-         if (enddate && startdate) {
-           if (startdate > enddate) {
-             alert('Start date should be less than end date');            
-             this.TaskAddEditForm.controls['startdate'].setErrors({ 'incorrect': true });
-           }
-         }
-     }); */
-
+  checkDates() {
+    return this.isDatesValid;
+  }
 
   //Calling from user search 
   onUserSelect(user: User) {
@@ -95,13 +83,11 @@ export class AddTaskComponent implements OnInit {
   //Calling from Project search popup
   onProjectSelect(project: Project) {
       this.task.Project = project;
-      console.log (project);
   } 
 
   //Calling from Parent Task search popup
   onParentTaskSelect(parent: ParentTask) {
       this.task.Parent = parent;
-      console.log ("parent", parent);
   } 
 
   addTask() {
