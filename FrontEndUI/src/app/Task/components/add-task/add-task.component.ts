@@ -23,8 +23,8 @@ export class AddTaskComponent implements OnInit {
    task = <Task>{
     Task      : '',
     Priority  : 0,
-    StartDate : '',
-    EndDate   : '',
+    StartDate : new Date(),
+    EndDate   : new Date(),
     status    : ''
   };
 
@@ -36,8 +36,12 @@ export class AddTaskComponent implements OnInit {
                 var today = new Date();
                 var today1 = new Date();
                 const tomorrow =  new Date(today1.setDate(today1.getDate() + 1));
-                this.sDate = <NgbDateStruct>{ year: today.getFullYear(), month: today.getMonth() + 1, day: today.getDate() };
+             /*   this.sDate = <NgbDateStruct>{ year: today.getFullYear(), month: today.getMonth() + 1, day: today.getDate() };
                 this.eDate = <NgbDateStruct>{ year: tomorrow.getFullYear(), month: tomorrow.getMonth() + 1, day: tomorrow.getDate() };
+              */
+             this.sDate = <NgbDateStruct>{ year: today.getFullYear(), month: today.getMonth() + 1, day: today.getDate() };
+             this.eDate = <NgbDateStruct>{ year: tomorrow.getFullYear(), month: tomorrow.getMonth() + 1, day: tomorrow.getDate() };
+           
               }
 
   ngOnInit() {
@@ -109,6 +113,9 @@ export class AddTaskComponent implements OnInit {
           });
       }
       else {
+        this.task.StartDate = moment(this.sDate).add(-1, 'months').toDate();
+        this.task.EndDate = moment(this.eDate).add(-1, 'months').toDate();
+
         this.taskservice.addTask(this.task)
           .subscribe(response => {
             if (response.Success == true) {
@@ -123,6 +130,9 @@ export class AddTaskComponent implements OnInit {
     } 
 
   updateTask() {
+    this.task.StartDate = moment(this.sDate).add(-1, 'months').toDate();
+    this.task.EndDate = moment(this.eDate).add(-1, 'months').toDate();
+    
     this.taskservice.editTask(this.task)
        .subscribe(response => {
          if (response.Success == true) {
@@ -142,8 +152,8 @@ export class AddTaskComponent implements OnInit {
     this.task = <Task>{
         Task      : '',
         Priority  : 0,
-        StartDate : '',
-        EndDate   : '',
+        StartDate : new Date(),
+        EndDate   : new Date(),
         status    : ''
     };
   }

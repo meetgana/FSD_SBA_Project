@@ -6,8 +6,8 @@ export interface Task {
     Parent?     : ParentTask,
     Project?    : Project,
     Task        : string,
-    StartDate?  : string,
-    EndDate?    : string,
+    StartDate?  : Date,
+    EndDate?    : Date,
     Priority    : number,    
     User?       : User,
     status      : string

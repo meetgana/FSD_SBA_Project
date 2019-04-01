@@ -59,12 +59,12 @@ export class TaskService {
 
   // Get task by ID
   getTaskById(taskId: number): Observable<ServerResponse<Task>> {
-    return this.http.get<ServerResponse<Task>>('${this.url}/tasks/${taskId}');
+    return this.http.get<ServerResponse<Task>>(`${this.url}/tasks/${taskId}`);
   }
 
   //Update the task status to complete
   taskComplete(taskId: number): Observable<ServerResponse<Task>>
   {
-    return this.http.get<ServerResponse<Task>>(`${this.url}/tasks/complete`);
+    return this.http.get<ServerResponse<Task>>(`${this.url}/tasks/complete/${taskId}`);
   }  
 }

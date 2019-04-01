@@ -89,7 +89,7 @@ Task.findOne({TaskID: newTask.TaskID }, (err, task) => {
 });
 
 //Move the input task to completed status
-router.get('/delete/:id', (req, res) => {
+router.get('/complete/:id', (req, res) => {
     let taskId = req.params.id;
 
     Task.findOne({ TaskID: taskId },  (err, task) => {    
