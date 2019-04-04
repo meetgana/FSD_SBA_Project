@@ -2,6 +2,7 @@ import { Component, OnInit, Input, Output, EventEmitter  } from '@angular/core';
 import { Project } from '../../../model/project';
 import { ProjectService } from '../../../service/project.service';
 
+
 declare var $ :any;
 
 @Component({

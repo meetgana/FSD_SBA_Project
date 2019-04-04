@@ -20,7 +20,7 @@
           <label for="lastname">Last Name:</label>
         </div>
         <div class="col col-md-9 float-right">
-          <input type="text" class="form-control" name="lastname" formControlName="lastname">
+          <input type="text" class="form-control"  name="lastname" formControlName="lastname">
           <div *ngIf= "UserAddEditForm.controls['lastname'].invalid && (UserAddEditForm.controls['lastname'].dirty)" class="alert alert-danger">
              <div *ngIf = "UserAddEditForm.controls['lastname'].errors.required"> 
                 A valid Last Name is required
@@ -44,8 +44,8 @@
       </div>    
    
       <div class="form-group row col-md-8 float-right">
-          <button class="col col-md-16" type="submit" [disabled]="UserAddEditForm.pristine || UserAddEditForm.invalid">{{ AddOrEdit }}</button> &nbsp;
-          <button class="col col-md-16" type="submit" [disabled]="UserAddEditForm.pristine || UserAddEditForm.invalid" (click)="reset()">Reset</button>
+          <button class="col col-md-16" type="submit" #AddOrUpdate [disabled]="UserAddEditForm.pristine || UserAddEditForm.invalid">{{ AddOrEdit }}</button> &nbsp;
+          <button class="col col-md-16" type="submit" #reset [disabled]="UserAddEditForm.pristine || UserAddEditForm.invalid" (click)="resetUserForm()">Reset</button>
       </div>
     </form> 
   </div>
@@ -78,7 +78,7 @@
 
         <div class="row col-md-16">
           <div class="col col-md-9 float-left">
-            <input type="text" [value]="user.FirstName" readonly class="form-control" >
+            <input type="text" [value]="user.FirstName" id="firstName" readonly class="form-control" >
           </div>
           <div class="col col-md-3 float-right">
             <button class="col col-md-10" type="button" (click)="editUser(user.UserID)">Edit</button>
@@ -87,7 +87,7 @@
 
         <div class="row col-md-16">
           <div class="col col-md-9 float-left">
-            <input type="text" [value]="user.LastName" readonly class="form-control" >
+            <input type="text" [value]="user.LastName" id="lastName" readonly class="form-control" >
           </div>
           <div class="col col-md-3 float-right">
             <button class="col col-md-10" type="button" (click)="deleteUser(user.UserID)">Delete</button>
@@ -96,7 +96,7 @@
 
         <div class="row col-md-16">
           <div class="col col-md-4 float-left">
-            <input type="text" [value]="user.EmployeeID" readonly class="form-control" >
+            <input type="text" [value]="user.EmployeeID" id="employeeId" readonly class="form-control" >
           </div>
          <div class="col col-md-2 float-right">
             <input type="hidden">

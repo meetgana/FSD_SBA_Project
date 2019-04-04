@@ -15,6 +15,7 @@ export class AddUserComponent implements OnInit {
   SortKey         : string;
   SearchKey       : string;  
   AddOrEdit      : String ;
+  newUser         : User;
 
   constructor(private formbuilder : FormBuilder,
               private userservice   : UserService) {
@@ -49,14 +50,14 @@ export class AddUserComponent implements OnInit {
   // Load User Form based on Users choice
   addOrEditUser() {
     if (this.AddOrEdit == 'Add') {
-      this.addUser();
+      this.addUserHandler();
     }    else if (this.AddOrEdit == 'Update') {
        this.updateUser();
     }
   }
 
   // Add User in database
-  addUser() {
+  addUserHandler() {
     console.log ("In addUser");
     const newUser = <User>{
       FirstName: this.UserAddEditForm.controls['firstname'].value,
