@@ -2,7 +2,9 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ProjectSearchComponent } from './project-search.component';
 import { HttpClientModule } from '@angular/common/http';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing'
-import { ProjectService } from '../../../service/project.service';;
+import { ProjectService } from '../../../service/project.service';
+import { Project } from '../../../model/project';
+
 
 describe('ProjectSearchComponent', () => {
   let component: ProjectSearchComponent;

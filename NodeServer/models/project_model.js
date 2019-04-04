@@ -3,6 +3,11 @@ const autoInc= require('mongoose-sequence')(mongoose)
 const Schema = mongoose.Schema;
 const Task = require('./task_model');
 
+var options = {
+  toObjects :{ virtuals: false },
+  toJSON :{ virtuals: true} 
+}
+
 let Project = new Schema({
     ProjectID       : {type: Number },
     Project         : {type: String, required: true},
@@ -10,7 +15,7 @@ let Project = new Schema({
     EndDate         : {type: Date, default: null},        
     Priority        : {type: Number},   
     ManagerID       : {type: Number, default: null},       
-    }, {collection: 'projects'}
+    }, options, {collection: 'projects'}
 );
 
 Project

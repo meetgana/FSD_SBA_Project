@@ -54,7 +54,7 @@
           <label for="manager">Manager</label>
         </div>
         <div class="col col-md-5 float-right">
-          <input type="text" class="form-control" formControlName='manager' name='manager' aria-describedby='manager' readonly>
+          <input type="text" class="form-control" formControlName='manager' id="manager" name='manager' aria-describedby='manager' readonly>
         </div>
         <div class="col col-md-2">
           <button type="button" class="btn btn-default border" data-toggle="modal" data-target="#userSearch" style="border-radius: 50%">Search</button>
@@ -100,7 +100,7 @@
           <div class="col-md-8">
             <table style="background-color:#f2f2f2 ; width: 100%" cellpadding=2>
               <tr>
-                <td>
+                <td id="dispProject">
                   Project: <b>{{project.Project}}</b>
                 </td>
               </tr>
@@ -108,12 +108,12 @@
                 <td colspan="2">&nbsp;</td>
               </tr>
               <tr>
-                <td>No of Tasks: {{project.TotalTasks}}</td>
+                <td >No of Tasks: {{project.TotalTasks}}</td>
                 <td>Completed: {{project.CompletedTasks}}</td>
               </tr>
               <tr>
-                <td>Start Date: {{project.StartDate | date: 'dd-MM-yyyy' }}</td>
-                <td>End Date: {{project.EndDate | date: 'dd-MM-yyyy'}}</td>
+                <td id="dispstartdate">Start Date: {{project.StartDate | date: 'dd-MM-yyyy' }}</td>
+                <td id="dispenddate">End Date: {{project.EndDate | date: 'dd-MM-yyyy'}}</td>
               </tr>
             </table>
           </div>
@@ -128,7 +128,7 @@
               <tr height="80%" style="background-color:#f2f2f2">
                 <td>
                   <div>
-                    <span>{{project.Priority}}</span>
+                    <span id="disppriority">{{project.Priority}}</span>
                   </div>
                 </td>
               </tr>
