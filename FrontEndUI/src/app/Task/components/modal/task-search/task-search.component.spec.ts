@@ -23,10 +23,37 @@ describe('TaskSearchComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(TaskSearchComponent);
     component = fixture.componentInstance;
+    service = TestBed.get(TaskService);
     fixture.detectChanges();
   });
 
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  it ('call retrieveParentTasks with search', () => {
+    const spy = spyOn(service, 'retrieveParentTasks').and.returnValue(
+      { subscribe: () => {success: true} }
+    );
+    const searchstr = 'ParentTask';
+  
+    component.SearchKey = searchstr;
+  
+    component.searchParentTask(searchstr);
+    fixture.detectChanges();
+    expect(spy).toHaveBeenCalledWith(searchstr);
+  });
+
+  it ('call addParentTask to return the selected ParentTask', () => {
+    component.SelectedParentTaskID = 1;    
+    const spy = spyOn(service, 'getParentTaskById').and.returnValue(
+      { subscribe: () => {success: true} }
+    );
+
+    component.addParentTask();
+    fixture.detectChanges();
+    expect(spy).toHaveBeenCalledWith(component.SelectedParentTaskID);
+   });
+
+
 });
