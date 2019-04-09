@@ -12,8 +12,7 @@ To bring up the User interface,
   1. Change directory to NodeServer path.
   2. Execute "nodemon" command to start the back end server.
   
-<<<<<<< HEAD
   Install MongoDB Database for the back end server to store and retrieve data for the Project Manager application.
-=======
-  Install MongoDB Database for the back end server to store and retrieve data for the Project Manager application.
->>>>>>> 0ab006ad1955e2e0d179fbc1e5c9527014bed4a7
+
+To view the Karma test coverage:-
+  1. Run ng test --code-coverage in FrontEndUI directory
