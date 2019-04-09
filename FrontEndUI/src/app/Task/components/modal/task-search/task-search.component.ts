@@ -14,11 +14,11 @@ export class TaskSearchComponent implements OnInit {
   @Input()  name: string;
   @Output() parentTaskSelected = new EventEmitter<ParentTask>();
 
-  ParentTasksList       : ParentTask[];
+  ParentTaskList       : ParentTask[];
   SortKey               : string;
-  SearchKey             : string;
+  searchStr             : string;
   EnableAddButton       : boolean; 
-  SelectedParentTaskID  : number;  
+  selectedParentTaskID  : number;  
 
   constructor(private parenttaskservice: TaskService) { }
 
@@ -27,27 +27,27 @@ export class TaskSearchComponent implements OnInit {
   }
 
   retrieveParentTasks(){
-    this.parenttaskservice.retrieveParentTasks(this.SearchKey)
+    this.parenttaskservice.retrieveParentTasks(this.searchStr)
       .subscribe(response => {
         if (response.Success == true) {
-          this.ParentTasksList = response.Data;
+          this.ParentTaskList = response.Data;
         }
       });
       this.EnableAddButton = false;
   }
   
   searchParentTask(searchValue: string) {
-    this.SearchKey = searchValue;
+    this.searchStr = searchValue;
     this.retrieveParentTasks();
   }
 
   selectParentTask(parentID: number){
-    this.SelectedParentTaskID = parentID;
+    this.selectedParentTaskID = parentID;
     this.EnableAddButton = true;
   }
 
   addParentTask(){
-    this.parenttaskservice.getParentTaskById(this.SelectedParentTaskID)
+    this.parenttaskservice.getParentTaskById(this.selectedParentTaskID)
       .subscribe(response =>{
           if(response.Success==true)
           {

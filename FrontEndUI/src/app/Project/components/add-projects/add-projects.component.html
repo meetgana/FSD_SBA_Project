@@ -139,7 +139,7 @@
             <table cellpadding=5>
               <tr>
                 <td>
-                  <button type="button" style="width :75px"  (click)="LoadProjectDetails(project.ProjectID)">Update</button> &nbsp;
+                  <button type="button" style="width :75px"  (click)="loadProjectDetails(project.ProjectID)">Update</button> &nbsp;
                 </td>
               </tr>
               <tr>
@@ -156,4 +156,4 @@
   </div>
 
 </div>
-<app-user-search (userSelected)="onManagerSelect($event)"></app-user-search>
+<app-user-search (userSelected)="selectedManager($event)"></app-user-search>

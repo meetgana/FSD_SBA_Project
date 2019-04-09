@@ -183,7 +183,7 @@ describe('AddProjectsComponent', () => {
 })
 );
 
-it('call onManagerSelect', () => {
+it('call selectedManager', () => {
   var user: User = {
     UserID: 1,
     FirstName: 'Abdul',
@@ -193,7 +193,7 @@ it('call onManagerSelect', () => {
     TaskID: 1
   }
 
- component.onManagerSelect(user);
+ component.selectedManager(user);
  fixture.detectChanges();
  const manager = component.ProjectAddEditForm.controls["manager"].value;
 
@@ -206,12 +206,12 @@ it ('call searchProject', () => {
     );
     
   const searchstr = 'Project1';
-  component.SearchKey = searchstr;
+  component.searchStr = searchstr;
 
  // component.retrieveProjectList();
  component.searchProject(searchstr);
   fixture.detectChanges();
-  expect (component.SearchKey).toContain('Project1');
+  expect (component.searchStr).toContain('Project1');
   expect(spy).toHaveBeenCalled();
   });
 
@@ -221,27 +221,27 @@ it ('call searchProject', () => {
     );
   
   var sortstr = 'StartDate';
-  component.SortKey = sortstr;
+  component.sortStr = sortstr;
   component.sortProjects(sortstr);
-  expect (component.SortKey).toContain('StartDate');
+  expect (component.sortStr).toContain('StartDate');
   expect(spy).toHaveBeenCalled();
 
   sortstr = 'EndDate';
-  component.SortKey = sortstr;
+  component.sortStr = sortstr;
   component.sortProjects(sortstr);
-  expect (component.SortKey).toContain('EndDate');
+  expect (component.sortStr).toContain('EndDate');
   expect(spy).toHaveBeenCalled();
 
   sortstr = 'Priority';
-  component.SortKey = sortstr;
+  component.sortStr = sortstr;
   component.sortProjects(sortstr);
-  expect (component.SortKey).toContain('Priority');
+  expect (component.sortStr).toContain('Priority');
   expect(spy).toHaveBeenCalled();
 
   sortstr = 'CompletedTasks';
-  component.SortKey = sortstr;
+  component.sortStr = sortstr;
   component.sortProjects(sortstr);
-  expect (component.SortKey).toContain('CompletedTasks');
+  expect (component.sortStr).toContain('CompletedTasks');
   expect(spy).toHaveBeenCalled();
 });
 
@@ -279,7 +279,7 @@ it ('call resetProjectForm', () => {
   expect(component.setdate).toBe(false);
 });
 
-it ('call LoadProjectDetails to show for update', () => {
+it ('call loadProjectDetails to show for update', () => {
 
     var today= new Date();
     var today30 = new Date();
@@ -296,7 +296,7 @@ it ('call LoadProjectDetails to show for update', () => {
     of({Success: true, Data: project})
     );
 
-  component.LoadProjectDetails(project);
+  component.loadProjectDetails(project);
   expect(spy).toHaveBeenCalled();
   //expect(component.UserAction).toBe('Update');
 });

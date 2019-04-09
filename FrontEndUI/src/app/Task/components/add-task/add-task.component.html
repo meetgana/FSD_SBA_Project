@@ -110,6 +110,6 @@
   </div>
   
   <!-- Search Modals -->
-  <app-user-search (userSelected)="onUserSelect($event)"></app-user-search>
-  <app-project-search (projectSelected)="onProjectSelect($event)"></app-project-search>
-  <app-task-search (parentTaskSelected)="onParentTaskSelect($event)"></app-task-search>
+  <app-user-search (userSelected)="selectedUser($event)"></app-user-search>
+  <app-project-search (projectSelected)="selectedProject($event)"></app-project-search>
+  <app-task-search (parentTaskSelected)="selectedParentTask($event)"></app-task-search>

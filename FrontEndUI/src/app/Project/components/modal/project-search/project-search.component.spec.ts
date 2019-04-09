@@ -40,8 +40,8 @@ describe('ProjectSearchComponent', () => {
     const searchstr = 'Ganapathi';
     const sortstr = 'FirstName';
   
-    component.SearchKey = searchstr;
-    component.SortKey = sortstr;
+    component.searchStr = searchstr;
+    component.sortStr = sortstr;
   
     component.retrieveProjectList();
     fixture.detectChanges();
@@ -52,7 +52,7 @@ describe('ProjectSearchComponent', () => {
     const searchstr = 'Ganapathi';
     component.searchProject(searchstr);
     fixture.detectChanges();
-    expect(component.SearchKey).toBe('Ganapathi');
+    expect(component.searchStr).toBe('Ganapathi');
   });
 
   it ('call selectProject', () => {

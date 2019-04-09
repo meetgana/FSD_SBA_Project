@@ -17,10 +17,10 @@ export class UserSearchComponent implements OnInit {
   @Output() userSelected = new EventEmitter<User>();
 
   UsersList       : User[];
-  SortKey         : string;
-  SearchKey       : string;
-  SelectedUserID  : number;
-  enableAdd       : boolean;
+  sortStr         : string;
+  searchStr       : string;
+  userIdSelected  : number;
+  enableAddButton       : boolean;
 
   constructor(private _userSrvc: UserService) { }
 
@@ -29,27 +29,27 @@ export class UserSearchComponent implements OnInit {
   }
 
   retrieveUsers(){
-    this._userSrvc.retrieveUsers(this.SearchKey, this.SortKey)
+    this._userSrvc.retrieveUsers(this.searchStr, this.sortStr)
       .subscribe(response => {
         if (response.Success == true) {
           this.UsersList = response.Data;
         }
       });
-      this.enableAdd = false;
+      this.enableAddButton = false;
   }
 
   searchUser(searchValue: string) {
-    this.SearchKey = searchValue;
+    this.searchStr = searchValue;
     this.retrieveUsers();
   }
   
   selectUser(userID: number){
-    this.SelectedUserID = userID;
-    this.enableAdd = true;
+    this.userIdSelected = userID;
+    this.enableAddButton = true;
   }
 
   addUser(){
-    this._userSrvc.getUserByID(this.SelectedUserID)
+    this._userSrvc.getUserByID(this.userIdSelected)
       .subscribe(response =>{
           if(response.Success==true)
           {

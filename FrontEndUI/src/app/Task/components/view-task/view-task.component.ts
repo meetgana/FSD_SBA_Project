@@ -12,8 +12,8 @@ import { TaskService } from '../../service/task.service';
 export class ViewTaskComponent implements OnInit {
 
   project     : Project;
-  TasksList   : Task[];
-  SortKey     : string;
+  taskList   : Task[];
+  sortStr     : string;
 
   constructor(private taskservice   : TaskService, 
               private router      : Router,
@@ -22,20 +22,20 @@ export class ViewTaskComponent implements OnInit {
   ngOnInit() {
   }
 
-  onProjectSelect(project: Project) {
+  selectedProject(project: Project) {
     this.project = project;
     this.retrieveTasks();
   }
 
   //Retrieve all tasks for the selected project
   retrieveTasks() {
-    this.taskservice.retrieveTasks(this.project.ProjectID, this.SortKey)
+    this.taskservice.retrieveTasks(this.project.ProjectID, this.sortStr)
     .subscribe(response => {
       if (response.Success == true) {
         if (response.Data.length == 0) {
           alert(response.Message);
         }
-        this.TasksList = response.Data;
+        this.taskList = response.Data;
         }
       else {
         alert(response.Message);
@@ -44,12 +44,12 @@ export class ViewTaskComponent implements OnInit {
   }
 
   //Sort tasks based on the sort criteia passed
-  sortTasks(sortKey: string) {
-    this.SortKey = sortKey;
-    this.taskservice.retrieveTasks(this.project.ProjectID, sortKey)
+  sortTasks(sortStr: string) {
+    this.sortStr = sortStr;
+    this.taskservice.retrieveTasks(this.project.ProjectID, sortStr)
       .subscribe(response => {
         if (response.Success == true) {
-          this.TasksList = response.Data;
+          this.taskList = response.Data;
         }
         else {
           alert(response.Message);
@@ -57,7 +57,7 @@ export class ViewTaskComponent implements OnInit {
       });
   } 
 
-  endTask(taskId: number) {
+  completeTask(taskId: number) {
     this.taskservice.taskComplete(taskId)
       .subscribe(response => {
         if (response.Success == true) {

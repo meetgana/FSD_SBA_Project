@@ -41,8 +41,8 @@ describe('UserSearchComponent', () => {
     const searchstr = 'Ganapathi';
     const sortstr = 'FirstName';
   
-    component.SearchKey = searchstr;
-    component.SortKey = sortstr;
+    component.searchStr = searchstr;
+    component.sortStr = sortstr;
   
     component.retrieveUsers();
     fixture.detectChanges();
@@ -63,7 +63,7 @@ describe('UserSearchComponent', () => {
       TaskID: 1
     };
     
-    component.SelectedUserID = user.UserID;
+    component.userIdSelected = user.UserID;
     const spy = spyOn(service, 'getUserByID').and.returnValue(
       of({success: true, Data: user})
     );
@@ -75,8 +75,8 @@ describe('UserSearchComponent', () => {
 
   it('call selectUser', () => {
       component.selectUser (1);
-      expect (component.SelectedUserID).toEqual(1);
-      expect (component.enableAdd).toBe(true);
+      expect (component.userIdSelected).toEqual(1);
+      expect (component.enableAddButton).toBe(true);
   })
 
 });

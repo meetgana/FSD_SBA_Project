@@ -39,7 +39,7 @@ describe('TaskSearchComponent', () => {
     );
     const searchstr = 'ParentTask';
   
-    component.SearchKey = searchstr;
+    component.searchStr = searchstr;
   
     component.searchParentTask(searchstr);
     fixture.detectChanges();
@@ -47,19 +47,19 @@ describe('TaskSearchComponent', () => {
   });
 
   it ('call addParentTask to return the selected ParentTask', () => {
-    component.SelectedParentTaskID = 1;    
+    component.selectedParentTaskID = 1;    
     const spy = spyOn(service, 'getParentTaskById').and.returnValue(
       of({success: true} )
     );
 
     component.addParentTask();
     fixture.detectChanges();
-    expect(spy).toHaveBeenCalledWith(component.SelectedParentTaskID);
+    expect(spy).toHaveBeenCalledWith(component.selectedParentTaskID);
    });
 
    it('call selectParentTask', () => {
      component.selectParentTask(1)
-     expect (component.SelectedParentTaskID).toEqual(1);
+     expect (component.selectedParentTaskID).toEqual(1);
      expect (component.EnableAddButton).toBe(true);
    })
 

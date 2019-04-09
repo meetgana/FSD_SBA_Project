@@ -138,14 +138,14 @@ it('call updateTask when a Task is updated', () => {
   expect(spy).toHaveBeenCalled();
 });
 
-it ('call onUserSelect', () => {
+it ('call selectedUser', () => {
   const user : User = {UserID: 1, FirstName: 'Abdul', LastName: 'Kalam', EmployeeID: 12345,
                       ProjectID: 1, TaskID: 1}
-  component.onUserSelect(user);
+  component.selectedUser(user);
   expect (component.task.User.FirstName).toContain('Abdul');
 })
 
-it ('call onProjectSelect', () => {
+it ('call selectedProject', () => {
   var today = new Date();
   var today30 = new Date();
   const  project:  Project  = {
@@ -154,13 +154,13 @@ it ('call onProjectSelect', () => {
           EndDate  : moment(today30.getDate() + 30).add(-1, 'months').toDate(),
           ManagerID: 1}
   
-  component.onProjectSelect(project);
+  component.selectedProject(project);
   expect (component.task.Project.Project).toBe('Project1');
 })
 
-it('call onParentTaskSelect', () => {
+it('call selectedParentTask', () => {
    const  parent: ParentTask = {ParentTaskID: 1, ParentTask: 'Parent1', ProjectID: 1};
-  component.onParentTaskSelect(parent);
+  component.selectedParentTask(parent);
   expect (component.task.Parent.ParentTask).toContain('Parent1');
 });
 
@@ -185,9 +185,9 @@ it('call dateValidator with invalid dates', ()=>{
 });
 
 
-it ('call reset', () => {
+it ('call resetTaskForm', () => {
 
-  component.reset();
+  component.resetTaskForm();
   expect (component.taskId).toEqual(0);
   expect (component.isParentTask).toBe('');
   expect (component.task.Task).toBe('');

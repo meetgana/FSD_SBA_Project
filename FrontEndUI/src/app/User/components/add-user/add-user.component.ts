@@ -12,8 +12,8 @@ export class AddUserComponent implements OnInit {
 
   UsersList       : User[];
   UserAddEditForm : FormGroup;
-  SortKey         : string;
-  SearchKey       : string;  
+  sortStr         : string;
+  searchStr       : string;  
   AddOrEdit      : String ;
   newUser         : User;
 
@@ -39,7 +39,7 @@ export class AddUserComponent implements OnInit {
 
   //Retrieve Users list when loading Add User Form
   retrieveUserList(){
-    this.userservice.retrieveUsers(this.SearchKey, this.SortKey)
+    this.userservice.retrieveUsers(this.searchStr, this.sortStr)
     .subscribe(response => {
       if (response.Success == true) {
         this.UsersList = response.Data;
@@ -135,26 +135,26 @@ export class AddUserComponent implements OnInit {
 
   // Search the User data using User input in User form
   searchUser(searchValue: string) {
-    this.SearchKey = searchValue;
+    this.searchStr = searchValue;
     this.retrieveUserList();
   }
 
   //Sort data using the choice from User form
-  sortUsers(sortKey: string){
-    if(sortKey=='firstname')
-    this.SortKey = 'FirstName';
-    else if(sortKey=='lastname')
-    this.SortKey = 'LastName';
-    else if(sortKey=='employeeId')
-    this.SortKey = 'EmployeeID';
+  sortUsers(sortStr: string){
+    if(sortStr=='firstname')
+    this.sortStr = 'FirstName';
+    else if(sortStr=='lastname')
+    this.sortStr = 'LastName';
+    else if(sortStr=='employeeId')
+    this.sortStr = 'EmployeeID';
     this.retrieveUserList();
   }
 
   // Reset the User Form
   resetUserForm() {
     this.UserAddEditForm.reset();
-    this.SearchKey = null;
-    this.SortKey = null;    
+    this.searchStr = null;
+    this.sortStr = null;    
     this.AddOrEdit ='Add';  
   }
 

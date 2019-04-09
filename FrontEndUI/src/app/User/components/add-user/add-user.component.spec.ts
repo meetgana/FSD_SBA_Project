@@ -98,8 +98,8 @@ it ('call searchUser sortUser firstname', () => {
   const searchstr = 'Ganapathi';
   var sortstr = 'firstname';
 
-  component.SearchKey = searchstr;
-  component.SortKey = sortstr;
+  component.searchStr = searchstr;
+  component.sortStr = sortstr;
 
   component.retrieveUserList();
   fixture.detectChanges();
@@ -118,7 +118,7 @@ it ('call sortUser lastname', () => {
     );
     const searchstr = 'Ganapathi';
     const sortstr = 'lastname';
-    component.SearchKey = searchstr;
+    component.searchStr = searchstr;
   
    component.sortUsers(sortstr);
     expect(spy).toHaveBeenCalledWith(searchstr, 'LastName');
@@ -130,7 +130,7 @@ it ('call sortUser employeeid', () => {
     );
     const searchstr = 'Ganapathi';
     const sortstr = 'employeeId';
-    component.SearchKey = searchstr;
+    component.searchStr = searchstr;
   
    component.sortUsers(sortstr);
     expect(spy).toHaveBeenCalledWith(searchstr, 'EmployeeID');
@@ -138,8 +138,8 @@ it ('call sortUser employeeid', () => {
 
 it('call resetUserForm',() => {
   component.resetUserForm();
-  expect (component.SearchKey).toBe(null);
-  expect (component.SortKey).toBe(null);
+  expect (component.searchStr).toBe(null);
+  expect (component.sortStr).toBe(null);
   expect (component.AddOrEdit).toBe('Add');
 })
 

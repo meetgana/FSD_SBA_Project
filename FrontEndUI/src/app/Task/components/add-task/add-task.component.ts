@@ -80,17 +80,17 @@ export class AddTaskComponent implements OnInit {
   }
 
   //Calling from user search 
-  onUserSelect(user: User) {
+  selectedUser(user: User) {
       this.task.User = user;
   }
   
   //Calling from Project search popup
-  onProjectSelect(project: Project) {
+  selectedProject(project: Project) {
       this.task.Project = project;
   } 
 
   //Calling from Parent Task search popup
-  onParentTaskSelect(parent: ParentTask) {
+  selectedParentTask(parent: ParentTask) {
       this.task.Parent = parent;
   } 
 
@@ -105,7 +105,7 @@ export class AddTaskComponent implements OnInit {
           .subscribe(response => {
             if (response.Success == true) {
               alert ('Parent Task added successfully!');
-              this.reset();
+              this.resetTaskForm();
             }
             else {
               alert (response.Message);
@@ -120,7 +120,7 @@ export class AddTaskComponent implements OnInit {
           .subscribe(response => {
             if (response.Success == true) {
               alert('Task has been added successfuly!');
-              this.reset();
+              this.resetTaskForm();
             }
             else {
               alert(response.Message);
@@ -144,7 +144,7 @@ export class AddTaskComponent implements OnInit {
       });
   } 
   
-  reset()
+  resetTaskForm()
   {
     this.taskId = 0;
     this.isParentTask = '';

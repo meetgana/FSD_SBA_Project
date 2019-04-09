@@ -16,9 +16,9 @@ export class ProjectSearchComponent implements OnInit {
   @Output() projectSelected = new EventEmitter<Project>();
 
   ProjectList       : Project[];
-  SortKey           : string;
-  SearchKey         : string;
-  EnableAddButton   : boolean; 
+  sortStr           : string;
+  searchStr         : string;
+  enableAddButton   : boolean; 
   ProjectIDSelected : number;  
 
   constructor(private projectservice: ProjectService) { }
@@ -29,7 +29,7 @@ export class ProjectSearchComponent implements OnInit {
 
   //Retrieve project list 
   retrieveProjectList(){
-    this.projectservice.retrieveProjects(this.SearchKey, this.SortKey)
+    this.projectservice.retrieveProjects(this.searchStr, this.sortStr)
     .subscribe(response => {
       if (response.Success == true) {
         this.ProjectList = response.Data;     
@@ -39,14 +39,14 @@ export class ProjectSearchComponent implements OnInit {
 
    //Search Projects
    searchProject(searchValue: string) {
-    this.SearchKey = searchValue;
+    this.searchStr = searchValue;
     this.retrieveProjectList();
   }
 
   //Handle selected Project
   selectProject(projectID: number){
     this.ProjectIDSelected = projectID;
-    this.EnableAddButton = true;
+    this.enableAddButton = true;
   }
 
   addProject(){

@@ -19,8 +19,8 @@ export class AddProjectsComponent implements OnInit {
   UserAction          : string;
   setdate             : boolean;
   Manager             : User;
-  SortKey             : string;
-  SearchKey           : string;
+  sortStr             : string;
+  searchStr           : string;
 
   constructor(private formbuilder : FormBuilder, private projectservice : ProjectService,
               private userservice : UserService) {
@@ -47,7 +47,7 @@ export class AddProjectsComponent implements OnInit {
 
   //Retrieve project list while loading Project Form
   retrieveProjectList(){
-    this.projectservice.retrieveProjects(this.SearchKey, this.SortKey)
+    this.projectservice.retrieveProjects(this.searchStr, this.sortStr)
     .subscribe(response => {
       if (response.Success == true) {
         this.ProjectList = response.Data;
@@ -148,23 +148,23 @@ export class AddProjectsComponent implements OnInit {
   }
 
   //Calling from manager search 
-  onManagerSelect(manager: User) {
+  selectedManager(manager: User) {
     this.Manager = manager;
     this.ProjectAddEditForm.get('manager').setValue(`${this.Manager.FirstName} ${this.Manager.LastName}`);
   }
   
   //Search Project with Project name from Project form
   searchProject(searchValue: string) {
-    this.SearchKey = searchValue;
+    this.searchStr = searchValue;
     this.retrieveProjectList();
   } 
 
   //Sort Projects based on input criteria from Project form
-  sortProjects(sortKey: string){
-    if(sortKey=='StartDate') this.SortKey = 'StartDate';
-    else if(sortKey=='EndDate')this.SortKey = 'EndDate';
-    else if(sortKey=='Priority')this.SortKey = 'Priority';
-    else if(sortKey=='CompletedTasks')this.SortKey = 'CompletedTasks';    
+  sortProjects(sortStr: string){
+    if(sortStr=='StartDate') this.sortStr = 'StartDate';
+    else if(sortStr=='EndDate')this.sortStr = 'EndDate';
+    else if(sortStr=='Priority')this.sortStr = 'Priority';
+    else if(sortStr=='CompletedTasks')this.sortStr = 'CompletedTasks';    
     this.retrieveProjectList();
   }
 
@@ -196,7 +196,7 @@ export class AddProjectsComponent implements OnInit {
   }
   
   //Upload the project details selected for update in the top section of the Project form
-  LoadProjectDetails(project) {
+  loadProjectDetails(project) {
     this.resetProjectForm();
     this.projectservice.getProjectById(project)
       .subscribe(response => {

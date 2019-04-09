@@ -60,16 +60,16 @@ describe('ViewTaskComponent', () => {
     expect (spy).toHaveBeenCalledWith(1);
   }));
 
-  it ('call endTask with taskId', fakeAsync(() => {
+  it ('call completeTask with taskId', fakeAsync(() => {
       const spy = spyOn(service, 'taskComplete').and.returnValue(
       of({Success: false})
     );
   
-    component.endTask(1);
+    component.completeTask(1);
     expect (spy).toHaveBeenCalledWith(1);
   }));
 
-  it ('call endTask with taskId', () => {
+  it ('call completeTask with taskId', () => {
     const spy = spyOn(service, 'taskComplete').and.returnValue(
     of({Success: true})
   );
@@ -105,14 +105,14 @@ describe('ViewTaskComponent', () => {
     );
 
     component.project = project;
-    component.SortKey = 'Priority';
+    component.sortStr = 'Priority';
     fixture.detectChanges();
-    component.endTask(1);
+    component.completeTask(1);
     expect (spyTasks).toHaveBeenCalledWith(1, 'Priority');
 
   });
 
-  it ('call sortTasks with sortKey', fakeAsync(() => {
+  it ('call sortTasks with sortStr', fakeAsync(() => {
     var today = new Date();
     var today30 = new Date();
     const task: Task = {
@@ -184,12 +184,12 @@ describe('ViewTaskComponent', () => {
   
     component.project = project;
     var sortstr = 'Priority'
-    component.SortKey = sortstr;
+    component.sortStr = sortstr;
     component.retrieveTasks();
     expect (spy).toHaveBeenCalledWith(1, 'Priority');
   }));
 
-  it ('call onProjectSelect', () => {
+  it ('call selectedProject', () => {
     var today = new Date();
     var today30 = new Date();
     const task: Task = {
@@ -221,8 +221,8 @@ describe('ViewTaskComponent', () => {
       of({Success: true, Data: task })
     );
   
-    component.SortKey = 'Priority';
-    component.onProjectSelect(project);
+    component.sortStr = 'Priority';
+    component.selectedProject(project);
     expect (spy).toHaveBeenCalledWith(1, 'Priority');
   });
 });
