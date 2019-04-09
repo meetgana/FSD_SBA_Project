@@ -7,7 +7,7 @@ import { Component, Directive } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { By } from '@angular/platform-browser';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { ServerResponse } from '../../../Model/serverresponse';
 import { componentNeedsResolution } from '@angular/core/src/metadata/resource_loading';
 
@@ -39,7 +39,7 @@ describe('AddUserComponent', () => {
 
   it('call addUser when a new User is added', () => {
     const spy = spyOn(service, 'addUser').and.returnValue(
-      { subscribe: () => {success: true} }
+      of({Success: true} )
     );
     
     component.AddOrEdit = 'Add';
@@ -49,7 +49,7 @@ describe('AddUserComponent', () => {
 
   it('call updateUser when a existing User is updated', () => {
     const spy = spyOn(service, 'updateUser').and.returnValue(
-      { subscribe: () => {success: true} }
+      of({Success: true} )
     );
     
     component.AddOrEdit = 'Update';
@@ -57,9 +57,8 @@ describe('AddUserComponent', () => {
     expect(spy).toHaveBeenCalled();
   });
 
-  it ('retriveUserList component show user details', async(() => {
-    async(()=> {
-      const user = [{
+  it ('retriveUserList component show user details', () => {
+    const user = [{
       UserID: 1,
       FirstName: 'Abdul',
       LastName: 'Kalam',
@@ -79,15 +78,12 @@ describe('AddUserComponent', () => {
       
       expect(firstnameelement.value).toContain(user[0].FirstName);
       expect(lastnameelement.value).toContain(user[0].LastName);
-
-    });
+    })
   })
-})
-);
 
 it('call deleteUser when an User is deleted', () => {
   const spy = spyOn(service, 'deleteUser').and.returnValue(
-    { subscribe: () => {success: true} }
+    of({Success: true} )
   );
   
   const userId=1;
@@ -95,12 +91,12 @@ it('call deleteUser when an User is deleted', () => {
   expect(spy).toHaveBeenCalledWith(userId);
 });
 
-it ('call searchUser sortUser', () => {
+it ('call searchUser sortUser firstname', () => {
   const spy = spyOn(service, 'retrieveUsers').and.returnValue(
-    { subscribe: () => {success: true} }
+    of({Success: true})
   );
   const searchstr = 'Ganapathi';
-  const sortstr = 'FirstName';
+  var sortstr = 'firstname';
 
   component.SearchKey = searchstr;
   component.SortKey = sortstr;
@@ -109,8 +105,43 @@ it ('call searchUser sortUser', () => {
   fixture.detectChanges();
   expect(spy).toHaveBeenCalledWith(searchstr, sortstr);
 
-})
+  component.searchUser(searchstr);
+  expect(spy).toHaveBeenCalledWith(searchstr, sortstr);
 
+  component.sortUsers(sortstr);
+  expect(spy).toHaveBeenCalledWith(searchstr, sortstr);
+});
+
+it ('call sortUser lastname', () => {
+    const spy = spyOn(service, 'retrieveUsers').and.returnValue(
+      of({Success: true})
+    );
+    const searchstr = 'Ganapathi';
+    const sortstr = 'lastname';
+    component.SearchKey = searchstr;
+  
+   component.sortUsers(sortstr);
+    expect(spy).toHaveBeenCalledWith(searchstr, 'LastName');
+});
+  
+it ('call sortUser employeeid', () => {
+    const spy = spyOn(service, 'retrieveUsers').and.returnValue(
+      of({Success: true})
+    );
+    const searchstr = 'Ganapathi';
+    const sortstr = 'employeeId';
+    component.SearchKey = searchstr;
+  
+   component.sortUsers(sortstr);
+    expect(spy).toHaveBeenCalledWith(searchstr, 'EmployeeID');
+});
+
+it('call resetUserForm',() => {
+  component.resetUserForm();
+  expect (component.SearchKey).toBe(null);
+  expect (component.SortKey).toBe(null);
+  expect (component.AddOrEdit).toBe('Add');
+})
 
 });
 

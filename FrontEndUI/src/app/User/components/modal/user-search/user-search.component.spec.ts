@@ -5,7 +5,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { By } from '@angular/platform-browser';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { ServerResponse } from '../../../../Model/serverresponse';
 import { User } from 'src/app/User/model/user';
 
@@ -36,7 +36,7 @@ describe('UserSearchComponent', () => {
 
   it ('call retrieveUsers, searchUser sortUser', () => {
     const spy = spyOn(service, 'retrieveUsers').and.returnValue(
-      { subscribe: () => {success: true} }
+      of( {success: true} )
     );
     const searchstr = 'Ganapathi';
     const sortstr = 'FirstName';
@@ -45,6 +45,10 @@ describe('UserSearchComponent', () => {
     component.SortKey = sortstr;
   
     component.retrieveUsers();
+    fixture.detectChanges();
+    expect(spy).toHaveBeenCalled();
+
+    component.searchUser(searchstr);
     fixture.detectChanges();
     expect(spy).toHaveBeenCalledWith(searchstr, sortstr);
   });
@@ -61,12 +65,18 @@ describe('UserSearchComponent', () => {
     
     component.SelectedUserID = user.UserID;
     const spy = spyOn(service, 'getUserByID').and.returnValue(
-      { subscribe: () => {success: true} }
+      of({success: true, Data: user})
     );
 
     component.addUser();
     fixture.detectChanges();
     expect(spy).toHaveBeenCalledWith(user.UserID);
-   });
+  });
+
+  it('call selectUser', () => {
+      component.selectUser (1);
+      expect (component.SelectedUserID).toEqual(1);
+      expect (component.enableAdd).toBe(true);
+  })
 
 });

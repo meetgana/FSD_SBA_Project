@@ -6,6 +6,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ProjectService } from '../../../service/project.service';
 import { Project } from '../../../model/project';
 import * as moment from 'moment';
+import { Observable, of } from 'rxjs';
 
 describe('ProjectSearchComponent', () => {
   let component: ProjectSearchComponent;
@@ -34,8 +35,8 @@ describe('ProjectSearchComponent', () => {
 
   it ('call retrieveProjectList, searchUser sortUser', () => {
     const spy = spyOn(service, 'retrieveProjects').and.returnValue(
-      { subscribe: () => {success: true} }
-    );
+      of({Success: true})
+      );
     const searchstr = 'Ganapathi';
     const sortstr = 'FirstName';
   
@@ -46,6 +47,22 @@ describe('ProjectSearchComponent', () => {
     fixture.detectChanges();
     expect(spy).toHaveBeenCalledWith(searchstr, sortstr);
   });
+
+  it ('call searchProject', () => {
+    const searchstr = 'Ganapathi';
+    component.searchProject(searchstr);
+    fixture.detectChanges();
+    expect(component.SearchKey).toBe('Ganapathi');
+  });
+
+  it ('call selectProject', () => {
+    const projectid = 1;
+ 
+    component.selectProject(projectid);
+    fixture.detectChanges();
+    expect(component.ProjectIDSelected).toEqual(1);
+  });
+
 
   it ('call addProject to return the selected Project', () => {
     var today = new Date();
@@ -60,7 +77,7 @@ describe('ProjectSearchComponent', () => {
     };
     
     const spy = spyOn(service, 'getProjectById').and.returnValue(
-      { subscribe: () => {success: true} }
+      of({Success: true})
     );
 
     component.ProjectIDSelected = project.ProjectID;

@@ -5,6 +5,8 @@ import { RouterModule } from '@angular/router';
 import { HttpClientModule } from '@angular/common/http';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { TaskService } from '../../../service/task.service';
+import { Observable, of } from 'rxjs';
+
 
 describe('TaskSearchComponent', () => {
   let component: TaskSearchComponent;
@@ -33,7 +35,7 @@ describe('TaskSearchComponent', () => {
 
   it ('call retrieveParentTasks with search', () => {
     const spy = spyOn(service, 'retrieveParentTasks').and.returnValue(
-      { subscribe: () => {success: true} }
+      of({success: true} )
     );
     const searchstr = 'ParentTask';
   
@@ -47,7 +49,7 @@ describe('TaskSearchComponent', () => {
   it ('call addParentTask to return the selected ParentTask', () => {
     component.SelectedParentTaskID = 1;    
     const spy = spyOn(service, 'getParentTaskById').and.returnValue(
-      { subscribe: () => {success: true} }
+      of({success: true} )
     );
 
     component.addParentTask();
@@ -55,5 +57,10 @@ describe('TaskSearchComponent', () => {
     expect(spy).toHaveBeenCalledWith(component.SelectedParentTaskID);
    });
 
+   it('call selectParentTask', () => {
+     component.selectParentTask(1)
+     expect (component.SelectedParentTaskID).toEqual(1);
+     expect (component.EnableAddButton).toBe(true);
+   })
 
 });

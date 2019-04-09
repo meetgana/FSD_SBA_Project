@@ -165,4 +165,29 @@ describe('TaskService', () => {
       data => {expect(tasks.Project.ProjectID).toEqual(1)
     });
   })
+
+  it ('should call taskComplete', () => {
+    var today = new Date();
+    var today30 = new Date();
+    const tasks: Task = {
+      TaskID     : 2,
+      Parent     : {ParentTaskID: 1, ParentTask: 'Parent1', ProjectID: 1},
+      Project    : {ProjectID: 1, Project  : 'Project1', Priority : 10,
+                    StartDate: moment(today.getDate()).add(-1, 'months').toDate(),
+                    EndDate  : moment(today30.getDate() + 30).add(-1, 'months').toDate(),
+                    ManagerID: 1},
+      Task        : 'Task2',
+      StartDate  : moment(today.getDate()).add(-1, 'months').toDate(),
+      EndDate    : moment(today30.getDate() + 30).add(-1, 'months').toDate(),
+      Priority    : 5,    
+      User       : {UserID: 1, FirstName: 'Abdul', LastName: 'Kalam', EmployeeID: 12345,
+                    ProjectID: 1, TaskID: 1},
+      status      : "0"
+    };
+
+    httpGetSpy.get.and.returnValue(of(tasks));
+    taskservice.taskComplete(tasks.TaskID).subscribe(
+      data => {expect(tasks.Task).toContain('Task2')}
+    )
+  });
 })

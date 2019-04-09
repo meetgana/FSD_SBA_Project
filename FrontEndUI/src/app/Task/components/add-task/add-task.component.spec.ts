@@ -60,20 +60,9 @@ describe('AddTaskComponent', () => {
     expect(component).toBeTruthy();
   });
 
-/*  it('call ngOnInit', () => {
-    const spy = spyOn(service, 'getTaskById').and.returnValue(
-      { subscribe: () => {success: true} }
-    );
-    
-    fixture.detectChanges();
-    component.ngOnInit();
-    expect(spy).toHaveBeenCalled();
-  });
-  */
-
  it('call addParentTask when a new Parent Task is added', () => {
   const spy = spyOn(service, 'addParentTask').and.returnValue(
-    { subscribe: () => {success: true} }
+    of( {success: true} )
   );
   
   var today = new Date();
@@ -95,7 +84,7 @@ describe('AddTaskComponent', () => {
 
 it('call addTask when a new Task is added', () => {
   const spy = spyOn(service, 'addTask').and.returnValue(
-    { subscribe: () => {success: true} }
+    of( {success: true} )
   );
   
   component.isParentTask = false;
@@ -123,7 +112,7 @@ it('call addTask when a new Task is added', () => {
 
 it('call updateTask when a Task is updated', () => {
   const spy = spyOn(service, 'editTask').and.returnValue(
-    { subscribe: () => {success: true} }
+    of( {success: true} )
   );
   
   component.isParentTask = false;
@@ -196,7 +185,13 @@ it('call dateValidator with invalid dates', ()=>{
 });
 
 
+it ('call reset', () => {
 
+  component.reset();
+  expect (component.taskId).toEqual(0);
+  expect (component.isParentTask).toBe('');
+  expect (component.task.Task).toBe('');
+})
 
 
 });

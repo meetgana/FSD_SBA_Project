@@ -7,13 +7,14 @@ import { Component, Directive } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { By } from '@angular/platform-browser';
-import { Observable } from 'rxjs';
+import { Observable, observable, of } from 'rxjs';
 import { ServerResponse } from '../../../Model/serverresponse';
 import * as moment from 'moment';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { UserSearchComponent } from '../../../User/components/modal/user-search/user-search.component'
 import { User } from 'src/app/User/model/user';
 import { Project } from 'src/app/Project/model/project';
+//import 'rxjs/add/observable/of';
 
 
 describe('AddProjectsComponent', () => {
@@ -43,8 +44,16 @@ describe('AddProjectsComponent', () => {
 
   it('call addProject when a new Project is added', () => {
     const spy = spyOn(service, 'addProject').and.returnValue(
-      { subscribe: () => {success: true} }
+      of({Success: true})
     );
+    var user: User = {
+      UserID: 1,
+      FirstName: 'Abdul',
+      LastName: 'Kalam',
+      EmployeeID: 12345,
+      ProjectID: 1,
+      TaskID: 1
+    };
 
     var today = new Date();
     var today30 = new Date();
@@ -52,6 +61,8 @@ describe('AddProjectsComponent', () => {
     var enddate = moment(today30.getDate() + 30).add(-1, 'months').toDate();
 
     component.UserAction = 'Add';
+    component.Manager = user;
+    component.setdate = true;
     component.addOrEditProject()
     expect(spy).toHaveBeenCalled();
   });
@@ -96,17 +107,44 @@ describe('AddProjectsComponent', () => {
   })
 
   it('call updateProject when a existing Project is updated', () => {
-    const spy = spyOn(service, 'updateProject').and.returnValue(
-      { subscribe: () => {success: true} }
+ 
+    const spyProjects = spyOn(service, 'updateProject').and.returnValue(
+      of({Success: true})
     );
+
     var today = new Date();
     var today30 = new Date();
     var startdate = moment(today.getDate()).add(-1, 'months').toDate();
     var enddate = moment(today30.getDate() + 30).add(-1, 'months').toDate();
-    
+ 
+    const project = {
+    ProjectID: 1,
+    Project  : 'Project1',
+    Priority : 10,
+    StartDate: moment(today.getDate()).add(-1, 'months').toDate(),
+    EndDate  : moment(today30.getDate() + 30).add(-1, 'months').toDate(),
+    ManagerID: 1
+  };
+
+  var user: User = {
+    UserID: 1,
+    FirstName: 'Abdul',
+    LastName: 'Kalam',
+    EmployeeID: 12345,
+    ProjectID: 1,
+    TaskID: 1
+  };
     component.UserAction = 'Update';
-    component.updateProject()
-    expect(spy).toHaveBeenCalled();
+    component.ProjectAddEditForm.controls['projectid'].setValue([project.ProjectID]);
+    component.ProjectAddEditForm.controls['project'].setValue(project.Project);
+    component.ProjectAddEditForm.controls['priority'].setValue(project.Priority);
+    expect(component.ProjectAddEditForm.controls["startdate"].value==startdate)
+    expect(component.ProjectAddEditForm.controls["enddate"].value==enddate) 
+    component.setdate = true;
+    component.Manager = user;
+    component.addOrEditProject()
+ 
+    expect(spyProjects).toHaveBeenCalled();
   });
 
   
@@ -122,7 +160,11 @@ describe('AddProjectsComponent', () => {
       EndDate  : moment(today30.getDate() + 30).add(-1, 'months').toDate(),
       ManagerID: 1
     }];
-    
+
+    const spy = spyOn(service, 'retrieveProjects').and.returnValue(
+      of({Success: true})
+      );
+
     component.ngOnInit();
     fixture.detectChanges();
 
@@ -135,32 +177,9 @@ describe('AddProjectsComponent', () => {
       expect(project.length).toEqual(1);
       expect (projname).toContain('Project1');
     });
+
+    expect (spy).toHaveBeenCalled();
   })
-})
-);
-
-it ('call LoadProjectDetails to show for update', async(() => {
-
-  async(()=> {
-    var today= new Date();
-    var today30 = new Date();
-    const project = [{
-    ProjectID: 1,
-    Project  : 'Project1',
-    Priority : 10,
-    StartDate: moment(today.getDate()).add(-1, 'months').toDate(),
-    EndDate  : moment(today30.getDate() + 30).add(-1, 'months').toDate(),
-    ManagerID: 1
-  }]
-
-  const spy = spyOn(service, 'getProjectById').and.returnValue(
-    { subscribe: () => {Success: true; Data: project[1]} }
-  );
-  component.ProjectList = project;
-
-  component.LoadProjectDetails(project);
-  expect(spy).toHaveBeenCalled();
-})
 })
 );
 
@@ -183,8 +202,9 @@ it('call onManagerSelect', () => {
 
 it ('call searchProject', () => {
   const spy = spyOn(service, 'retrieveProjects').and.returnValue(
-    { subscribe: () => {success: true} }
-  );
+    of({Success: true})
+    );
+    
   const searchstr = 'Project1';
   component.SearchKey = searchstr;
 
@@ -197,19 +217,41 @@ it ('call searchProject', () => {
 
   it ('call sortProject', () => {
     const spy = spyOn(service, 'retrieveProjects').and.returnValue(
-      { subscribe: () => {success: true} }
+      of({Success: true})
     );
   
-  const sortstr = 'StartDate';
+  var sortstr = 'StartDate';
   component.SortKey = sortstr;
   component.sortProjects(sortstr);
   expect (component.SortKey).toContain('StartDate');
+  expect(spy).toHaveBeenCalled();
+
+  sortstr = 'EndDate';
+  component.SortKey = sortstr;
+  component.sortProjects(sortstr);
+  expect (component.SortKey).toContain('EndDate');
+  expect(spy).toHaveBeenCalled();
+
+  sortstr = 'Priority';
+  component.SortKey = sortstr;
+  component.sortProjects(sortstr);
+  expect (component.SortKey).toContain('Priority');
+  expect(spy).toHaveBeenCalled();
+
+  sortstr = 'CompletedTasks';
+  component.SortKey = sortstr;
+  component.sortProjects(sortstr);
+  expect (component.SortKey).toContain('CompletedTasks');
   expect(spy).toHaveBeenCalled();
 });
 
 it ('call suspendProject for suspendProject', () => {
   const spy = spyOn(service, 'suspendProject').and.returnValue(
-    { subscribe: () => {Success: true} }
+    of({Success: true})
+  );
+
+  const spyProjects = spyOn(service, 'retrieveProjects').and.returnValue(
+    of({Success: true})
   );
 
 var today = new Date();
@@ -224,34 +266,39 @@ const project: Project = {
 };
 component.suspendProject(project);
 expect(spy).toHaveBeenCalled();
-});
 
-/*it ('call suspendProject for retrieveProject', () => {
-  const spyProjects = spyOn(service, 'retrieveProjects').and.returnValue(
-    { subscribe: () => {Success: true} }
-  );
-
-var today = new Date();
-var today30 = new Date();
-const project: Project = {
-  ProjectID: 1,
-  Project  : 'Project1',
-  Priority : 10,
-  StartDate: moment(today.getDate()).add(-1, 'months').toDate(),
-  EndDate  : moment(today30.getDate() + 30).add(-1, 'months').toDate(),
-  ManagerID: 1
-};
 component.suspendProject(project);
 expect(spyProjects).toHaveBeenCalled();
 
 });
-*/
 
 it ('call resetProjectForm', () => {
-component.resetProjectForm();
-expect(component.UserAction).toContain('Add');
-expect(component.Manager).toBe(null);
-expect(component.setdate).toBe(false);
+  component.resetProjectForm();
+  expect(component.UserAction).toContain('Add');
+  expect(component.Manager).toBe(null);
+  expect(component.setdate).toBe(false);
+});
+
+it ('call LoadProjectDetails to show for update', () => {
+
+    var today= new Date();
+    var today30 = new Date();
+    const project = {
+    ProjectID: 1,
+    Project  : 'Project1',
+    Priority : 10,
+    StartDate: moment(today.getDate()).add(-1, 'months').toDate(),
+    EndDate  : moment(today30.getDate() + 30).add(-1, 'months').toDate(),
+    ManagerID: 1
+  }
+
+  const spy = spyOn(service, 'getProjectById').and.returnValue(
+    of({Success: true, Data: project})
+    );
+
+  component.LoadProjectDetails(project);
+  expect(spy).toHaveBeenCalled();
+  //expect(component.UserAction).toBe('Update');
 });
 
 });
