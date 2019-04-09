@@ -63,6 +63,28 @@ describe('AddProjectsComponent', () => {
     expect(component.ProjectAddEditForm.controls["enddate"].value==enddate) 
     expect(component.setdate).toEqual(true);    
 
+/*    component.setdate = false;
+    fixture.detectChanges();
+    result = component.dateValidation();
+    expect(component.ProjectAddEditForm.controls["startdate"].value=="")
+    expect(component.ProjectAddEditForm.controls["enddate"].value=="")
+    expect(component.setdate).toEqual(false); 
+    */
+  })
+
+  it ('call dateValidator to reset the start and end dates', () => {
+    component.setdate = true;
+    var today = new Date();
+    var today30 = new Date();
+    var startdate;
+    var enddate;
+    var result = component.dateValidation();
+/*    component.ProjectAddEditForm.controls['setdate'].setValue(component.setdate);
+
+    expect(component.ProjectAddEditForm.controls["startdate"].value==startdate)
+    expect(component.ProjectAddEditForm.controls["enddate"].value==enddate) 
+    expect(component.setdate).toEqual(false);   */ 
+
     component.setdate = false;
     fixture.detectChanges();
     result = component.dateValidation();
@@ -70,6 +92,7 @@ describe('AddProjectsComponent', () => {
     expect(component.ProjectAddEditForm.controls["enddate"].value=="")
     expect(component.setdate).toEqual(false); 
   })
+
   it('call updateProject when a existing Project is updated', () => {
     const spy = spyOn(service, 'updateProject').and.returnValue(
       { subscribe: () => {success: true} }
