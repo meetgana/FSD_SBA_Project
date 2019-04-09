@@ -13,6 +13,7 @@ import * as moment from 'moment';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { UserSearchComponent } from '../../../User/components/modal/user-search/user-search.component'
 import { User } from 'src/app/User/model/user';
+import { Project } from 'src/app/Project/model/project';
 
 
 describe('AddProjectsComponent', () => {
@@ -44,13 +45,18 @@ describe('AddProjectsComponent', () => {
     const spy = spyOn(service, 'addProject').and.returnValue(
       { subscribe: () => {success: true} }
     );
-    
+
+    var today = new Date();
+    var today30 = new Date();
+    var startdate = moment(today.getDate()).add(-1, 'months').toDate();
+    var enddate = moment(today30.getDate() + 30).add(-1, 'months').toDate();
+
     component.UserAction = 'Add';
     component.addOrEditProject()
     expect(spy).toHaveBeenCalled();
   });
 
-  it ('call dateValidator to validate the start and end dates', () => {
+  it ('call dateValidator with setDate', () => {
     component.setdate = true;
     var today = new Date();
     var today30 = new Date();
@@ -72,20 +78,16 @@ describe('AddProjectsComponent', () => {
     */
   })
 
-  it ('call dateValidator to reset the start and end dates', () => {
-    component.setdate = true;
+  it ('call dateValidator without setDate', () => {
+    component.setdate = false;
     var today = new Date();
     var today30 = new Date();
     var startdate;
     var enddate;
+
+    component.ProjectAddEditForm.controls['setdate'].setValue(component.setdate);
     var result = component.dateValidation();
-/*    component.ProjectAddEditForm.controls['setdate'].setValue(component.setdate);
 
-    expect(component.ProjectAddEditForm.controls["startdate"].value==startdate)
-    expect(component.ProjectAddEditForm.controls["enddate"].value==enddate) 
-    expect(component.setdate).toEqual(false);   */ 
-
-    component.setdate = false;
     fixture.detectChanges();
     result = component.dateValidation();
     expect(component.ProjectAddEditForm.controls["startdate"].value=="")
@@ -97,9 +99,13 @@ describe('AddProjectsComponent', () => {
     const spy = spyOn(service, 'updateProject').and.returnValue(
       { subscribe: () => {success: true} }
     );
+    var today = new Date();
+    var today30 = new Date();
+    var startdate = moment(today.getDate()).add(-1, 'months').toDate();
+    var enddate = moment(today30.getDate() + 30).add(-1, 'months').toDate();
     
     component.UserAction = 'Update';
-    component.addOrEditProject()
+    component.updateProject()
     expect(spy).toHaveBeenCalled();
   });
 
@@ -145,30 +151,15 @@ it ('call LoadProjectDetails to show for update', async(() => {
     StartDate: moment(today.getDate()).add(-1, 'months').toDate(),
     EndDate  : moment(today30.getDate() + 30).add(-1, 'months').toDate(),
     ManagerID: 1
-  },
-  {
-    ProjectID: 2,
-    Project  : 'Project2',
-    Priority : 20,
-    StartDate: moment(today.getDate()+ 10).add(-1, 'months').toDate(),
-    EndDate  : moment(today30.getDate() + 30).add(-1, 'months').toDate(),
-    ManagerID: 2
-  }];
+  }]
 
   const spy = spyOn(service, 'getProjectById').and.returnValue(
-    { subscribe: () => {success: true; Data: project[1]} }
+    { subscribe: () => {Success: true; Data: project[1]} }
   );
   component.ProjectList = project;
 
-  component.LoadProjectDetails(project[1].ProjectID);
-  fixture.detectChanges();
-
-  fixture.whenStable().then( ()=> {
-    const projname: HTMLInputElement = fixture.debugElement.query(By.css('#dispproject')).nativeElement;
-    
-    expect(project.length).toEqual(1);
-    expect (projname).toContain('Project2');
-  });
+  component.LoadProjectDetails(project);
+  expect(spy).toHaveBeenCalled();
 })
 })
 );
@@ -190,20 +181,77 @@ it('call onManagerSelect', () => {
  expect (manager).toContain('Abdul');
 });
 
-it ('call searchProject sortProject', () => {
+it ('call searchProject', () => {
   const spy = spyOn(service, 'retrieveProjects').and.returnValue(
     { subscribe: () => {success: true} }
   );
   const searchstr = 'Project1';
-  const sortstr = 'StartDate';
-
   component.SearchKey = searchstr;
-  component.SortKey = sortstr;
 
-  component.retrieveProjectList();
+ // component.retrieveProjectList();
+ component.searchProject(searchstr);
   fixture.detectChanges();
-  expect(spy).toHaveBeenCalledWith(searchstr, sortstr);
+  expect (component.SearchKey).toContain('Project1');
+  expect(spy).toHaveBeenCalled();
+  });
+
+  it ('call sortProject', () => {
+    const spy = spyOn(service, 'retrieveProjects').and.returnValue(
+      { subscribe: () => {success: true} }
+    );
+  
+  const sortstr = 'StartDate';
+  component.SortKey = sortstr;
+  component.sortProjects(sortstr);
+  expect (component.SortKey).toContain('StartDate');
+  expect(spy).toHaveBeenCalled();
 });
 
+it ('call suspendProject for suspendProject', () => {
+  const spy = spyOn(service, 'suspendProject').and.returnValue(
+    { subscribe: () => {Success: true} }
+  );
+
+var today = new Date();
+var today30 = new Date();
+const project: Project = {
+  ProjectID: 1,
+  Project  : 'Project1',
+  Priority : 10,
+  StartDate: moment(today.getDate()).add(-1, 'months').toDate(),
+  EndDate  : moment(today30.getDate() + 30).add(-1, 'months').toDate(),
+  ManagerID: 1
+};
+component.suspendProject(project);
+expect(spy).toHaveBeenCalled();
+});
+
+/*it ('call suspendProject for retrieveProject', () => {
+  const spyProjects = spyOn(service, 'retrieveProjects').and.returnValue(
+    { subscribe: () => {Success: true} }
+  );
+
+var today = new Date();
+var today30 = new Date();
+const project: Project = {
+  ProjectID: 1,
+  Project  : 'Project1',
+  Priority : 10,
+  StartDate: moment(today.getDate()).add(-1, 'months').toDate(),
+  EndDate  : moment(today30.getDate() + 30).add(-1, 'months').toDate(),
+  ManagerID: 1
+};
+component.suspendProject(project);
+expect(spyProjects).toHaveBeenCalled();
+
+});
+*/
+
+it ('call resetProjectForm', () => {
+component.resetProjectForm();
+expect(component.UserAction).toContain('Add');
+expect(component.Manager).toBe(null);
+expect(component.setdate).toBe(false);
+});
 
 });
